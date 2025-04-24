@@ -5,12 +5,6 @@ export const Notes: CollectionConfig = {
   admin: {
     useAsTitle: "title"
   },
-  access: {
-    read: () => false,
-    create: () => true,
-    update: () => false,
-    delete: () => false,
-  },
   labels: {
     singular: "Note",
     plural: "Notes",

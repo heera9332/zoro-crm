@@ -21,12 +21,21 @@ export const Posts: CollectionConfig = {
       type: "richText",
       label: "Post Content",
       required: true,
+      admin: {
+        style: {
+          minHeight: "400px",
+          
+        }
+      }
     },
     {
       name: "author",
       type: "relationship",
       relationTo: "users",
       label: "Author",
+      admin: {
+        position: "sidebar",
+      }
     },
     {
       name: "status",
@@ -38,12 +47,18 @@ export const Posts: CollectionConfig = {
         { label: "Archived", value: "archived" },
       ],
       defaultValue: "draft",
+      admin: {
+        position: "sidebar",
+      }
     },
     {
       name: "featuredImage",
       type: "upload",
       relationTo: "media",
       label: "Featured Image",
+      admin: {
+        position: "sidebar",
+      }
     },
   ],
 };

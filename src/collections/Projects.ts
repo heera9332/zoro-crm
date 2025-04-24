@@ -2,6 +2,45 @@ import type { CollectionConfig } from "payload";
 
 export const Projects: CollectionConfig = {
   slug: "projects",
+
+  hooks: {
+    afterChange: [
+      async ({ doc, req, operation }) => {
+        const userId = req?.user?.id;
+        let action = "";
+
+        if (operation === "create") action = "Created Project";
+        else if (operation === "update") action = "Updated Project";
+
+        if (action) {
+          await req.payload.create({
+            collection: "timeline",
+            data: {
+              project: doc.id,
+              action,
+              performedBy: userId,
+              details: `${action} titled "${doc.title}"`,
+            },
+          });
+        }
+      },
+    ],
+    afterDelete: [
+      async ({ doc, req }) => {
+        const userId = req?.user?.id;
+
+        await req.payload.create({
+          collection: "timeline",
+          data: {
+            project: doc.id,
+            action: "Deleted Project",
+            performedBy: userId,
+            details: `Deleted project titled "${doc.title}"`,
+          },
+        });
+      },
+    ],
+  },
   labels: {
     singular: "Project",
     plural: "Projects",
@@ -17,13 +56,11 @@ export const Projects: CollectionConfig = {
       name: "description",
       type: "textarea",
       label: "Description",
-      required: true,
     },
     {
       name: "dueDate",
       type: "date",
       label: "Due Date",
-      required: true,
     },
     {
       name: "priority",
@@ -41,12 +78,16 @@ export const Projects: CollectionConfig = {
       type: "select",
       label: "Status",
       options: [
+        { label: "Not started", value: "not-started" },
         { label: "Doing", value: "doing" },
         { label: "In Progress", value: "in-progress" },
         { label: "Completed", value: "completed" },
         { label: "Cancelled", value: "cancelled" },
       ],
-      defaultValue: "to-do",
+      defaultValue: "not-started",
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "assignedTo",
@@ -66,6 +107,8 @@ export const Projects: CollectionConfig = {
       hasMany: true,
       admin: {
         allowCreate: false,
+        position: "sidebar",
+        isSortable: true,
       },
     },
     {
@@ -76,7 +119,19 @@ export const Projects: CollectionConfig = {
       hasMany: true,
       admin: {
         description: "Upload files related to the project.",
+        position: "sidebar",
       },
-    }
+    },
+    {
+      name: "timeline",
+      type: "relationship",
+      relationTo: "timeline",
+      hasMany: true,
+      admin: {
+        position: "sidebar",
+        readOnly: true,
+        description: "View all logged timeline events",
+      },
+    },
   ],
 };
