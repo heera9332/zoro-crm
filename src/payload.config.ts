@@ -15,7 +15,8 @@ import { Notes } from './collections/Notes'
 import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
 import { Tags } from './collections/Tags'
-
+import { Timeline } from './collections/Timeline'
+import { Comments } from './collections/Comments'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -26,7 +27,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Categories, Tags, Posts, Notes, Projects, Tasks],
+  collections: [Users, Media, Categories, Tags, Posts, Notes, Projects, Tasks, Timeline, Comments],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

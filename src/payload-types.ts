@@ -75,6 +75,8 @@ export interface Config {
     notes: Note;
     projects: Project;
     tasks: Task;
+    timeline: Timeline;
+    comments: Comment;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -89,6 +91,8 @@ export interface Config {
     notes: NotesSelect<false> | NotesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     tasks: TasksSelect<false> | TasksSelect<true>;
+    timeline: TimelineSelect<false> | TimelineSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -288,16 +292,35 @@ export interface Note {
 export interface Project {
   id: string;
   title: string;
-  description: string;
-  dueDate: string;
+  description?: string | null;
+  dueDate?: string | null;
   priority?: ('low' | 'medium' | 'high') | null;
-  status?: ('doing' | 'in-progress' | 'completed' | 'cancelled') | null;
+  status?: ('not-started' | 'doing' | 'in-progress' | 'completed' | 'cancelled') | null;
   assignedTo?: (string | User)[] | null;
   notes?: (string | Note)[] | null;
   /**
    * Upload files related to the project.
    */
   attachments?: (string | Media)[] | null;
+  /**
+   * View all logged timeline events
+   */
+  timeline?: (string | Timeline)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "timeline".
+ */
+export interface Timeline {
+  id: string;
+  project: string | Project;
+  task: string | Task;
+  action: string;
+  performedBy?: (string | null) | User;
+  timestamp?: string | null;
+  details?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -312,6 +335,31 @@ export interface Task {
   dueDate?: string | null;
   status?: ('to-do' | 'in-progress' | 'completed') | null;
   assignedTo?: (string | User)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: string;
+  content: string;
+  author: string | User;
+  commentedOn:
+    | {
+        relationTo: 'projects';
+        value: string | Project;
+      }
+    | {
+        relationTo: 'tasks';
+        value: string | Task;
+      }
+    | {
+        relationTo: 'notes';
+        value: string | Note;
+      };
+  comments?: (string | Comment)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -353,6 +401,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tasks';
         value: string | Task;
+      } | null)
+    | ({
+        relationTo: 'timeline';
+        value: string | Timeline;
+      } | null)
+    | ({
+        relationTo: 'comments';
+        value: string | Comment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -499,6 +555,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   assignedTo?: T;
   notes?: T;
   attachments?: T;
+  timeline?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -512,6 +569,32 @@ export interface TasksSelect<T extends boolean = true> {
   dueDate?: T;
   status?: T;
   assignedTo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "timeline_select".
+ */
+export interface TimelineSelect<T extends boolean = true> {
+  project?: T;
+  task?: T;
+  action?: T;
+  performedBy?: T;
+  timestamp?: T;
+  details?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  content?: T;
+  author?: T;
+  commentedOn?: T;
+  comments?: T;
   updatedAt?: T;
   createdAt?: T;
 }
