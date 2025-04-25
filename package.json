@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "--inspect next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -15,6 +15,7 @@
     "@payloadcms/next": "^3.35.1",
     "@payloadcms/payload-cloud": "^3.35.1",
     "@payloadcms/richtext-lexical": "^3.35.1",
+    "axios": "^1.9.0",
     "graphql": "^16.8.1",
     "next": "15.3.1",
     "payload": "^3.35.1",

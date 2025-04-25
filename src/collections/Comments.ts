@@ -27,7 +27,7 @@ export const Comments: CollectionConfig = {
     {
       name: "commentedOn",
       type: "relationship",
-      relationTo: ["projects", "tasks", "notes"], // list your collection slugs here
+      relationTo: ["projects", "tasks", "notes"],
       required: true,
     },
     {
@@ -40,6 +40,27 @@ export const Comments: CollectionConfig = {
         position: "sidebar",
       },
     },
+    {
+      name: "anchor",
+      type: "group",
+      fields: [
+        {
+          name: "startIndex",
+          type: "number",
+          required: true,
+        },
+        {
+          name: "endIndex",
+          type: "number",
+          required: true,
+        }
+      ],
+      label: "Text Anchor",
+      admin: {
+        description: "Position of text this comment is attached to",
+      }
+    },
+    
   ],
 
   timestamps: true,

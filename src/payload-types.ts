@@ -263,6 +263,7 @@ export interface Post {
 export interface Note {
   id: string;
   title: string;
+  author?: (string | null) | User;
   content: {
     root: {
       type: string;
@@ -278,10 +279,16 @@ export interface Note {
     };
     [k: string]: unknown;
   };
-  author?: (string | null) | User;
   Category?: (string | Category)[] | null;
   Tag?: (string | null) | Tag;
   project?: (string | null) | Project;
+  /**
+   * Users who can collaborate on this note
+   */
+  collaborators?: (string | User)[] | null;
+  lastEditedBy?: (string | null) | User;
+  lastEditedAt?: string | null;
+  docId?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -360,6 +367,13 @@ export interface Comment {
         value: string | Note;
       };
   comments?: (string | Comment)[] | null;
+  /**
+   * Position of text this comment is attached to
+   */
+  anchor: {
+    startIndex: number;
+    endIndex: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -534,11 +548,15 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface NotesSelect<T extends boolean = true> {
   title?: T;
-  content?: T;
   author?: T;
+  content?: T;
   Category?: T;
   Tag?: T;
   project?: T;
+  collaborators?: T;
+  lastEditedBy?: T;
+  lastEditedAt?: T;
+  docId?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -595,6 +613,12 @@ export interface CommentsSelect<T extends boolean = true> {
   author?: T;
   commentedOn?: T;
   comments?: T;
+  anchor?:
+    | T
+    | {
+        startIndex?: T;
+        endIndex?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
