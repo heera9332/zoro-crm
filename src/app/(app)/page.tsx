@@ -1,4 +1,6 @@
-"use client"
+"use client";
+import "@/app/globals.css";
+import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 
@@ -20,7 +22,6 @@ export default function Page() {
   }, []);
   return (
     <div>
-      <h2>Heading</h2>
     </div>
   );
 }
