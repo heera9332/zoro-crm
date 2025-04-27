@@ -1,5 +1,4 @@
 import type { CollectionConfig } from "payload";
-import CommentsField from "@/components/CommentsField";
 export const Notes: CollectionConfig = {
   slug: "notes",
   admin: {
@@ -105,17 +104,6 @@ export const Notes: CollectionConfig = {
             return originalDoc.id;
           },
         ],
-      },
-    },
-    {
-      name: "commentsUI",
-      type: "ui",
-      label: "Comments",
-      admin: {
-        position: "sidebar", // or 'bottom'
-        components: {
-          Field: CommentsField,
-        },
       },
     },
   ],

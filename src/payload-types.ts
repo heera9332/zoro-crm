@@ -77,6 +77,8 @@ export interface Config {
     tasks: Task;
     timeline: Timeline;
     comments: Comment;
+    chats: Chat;
+    messages: Message;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -93,6 +95,8 @@ export interface Config {
     tasks: TasksSelect<false> | TasksSelect<true>;
     timeline: TimelineSelect<false> | TimelineSelect<true>;
     comments: CommentsSelect<false> | CommentsSelect<true>;
+    chats: ChatsSelect<false> | ChatsSelect<true>;
+    messages: MessagesSelect<false> | MessagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -379,6 +383,63 @@ export interface Comment {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chats".
+ */
+export interface Chat {
+  id: string;
+  /**
+   * Optional name for group chats
+   */
+  title?: string | null;
+  /**
+   * Users who can see & send messages in this chat
+   */
+  participants: (string | User)[];
+  /**
+   * Denormalized pointer to the most recent Message
+   */
+  lastMessage?: (string | null) | Message;
+  /**
+   * Map of userID → number of unread messages
+   */
+  unreadCounts?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "messages".
+ */
+export interface Message {
+  id: string;
+  /**
+   * Which Chat this message belongs to
+   */
+  chat: string | Chat;
+  sender: string | User;
+  text: string;
+  /**
+   * Determines if `text` vs `attachment` is shown
+   */
+  type?: ('text' | 'image' | 'file') | null;
+  attachment?: (string | null) | Media;
+  /**
+   * Users who have viewed this message
+   */
+  seenBy?: (string | User)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -423,6 +484,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'comments';
         value: string | Comment;
+      } | null)
+    | ({
+        relationTo: 'chats';
+        value: string | Chat;
+      } | null)
+    | ({
+        relationTo: 'messages';
+        value: string | Message;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -619,6 +688,32 @@ export interface CommentsSelect<T extends boolean = true> {
         startIndex?: T;
         endIndex?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chats_select".
+ */
+export interface ChatsSelect<T extends boolean = true> {
+  title?: T;
+  participants?: T;
+  lastMessage?: T;
+  unreadCounts?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "messages_select".
+ */
+export interface MessagesSelect<T extends boolean = true> {
+  chat?: T;
+  sender?: T;
+  text?: T;
+  type?: T;
+  attachment?: T;
+  seenBy?: T;
   updatedAt?: T;
   createdAt?: T;
 }
