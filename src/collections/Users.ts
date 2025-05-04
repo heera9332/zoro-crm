@@ -6,10 +6,16 @@ export const Users: CollectionConfig = {
     singular: 'User',
     plural: 'Users',
   },  
+  
   admin: {
     useAsTitle: 'firstName',
   },
-  auth: true,
+  auth: {
+    loginWithUsername: {
+      allowEmailLogin: true,
+      requireEmail: false,
+    },
+  },
   fields: [
     {
       name: "roles",
@@ -37,6 +43,12 @@ export const Users: CollectionConfig = {
       type: "text",
       label: "Last Name",
       required: true,
+    },
+    {
+      name: 'workspaces',
+      type: 'relationship',
+      relationTo: 'workspaces', // Referring to the workspaces collection
+      hasMany: true,  // This allows the user to belong to multiple workspaces
     },
     {
       name: "phone",

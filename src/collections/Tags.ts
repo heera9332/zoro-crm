@@ -10,14 +10,13 @@ export const Tags: CollectionConfig = {
     {
       name: "title",
       type: "text",
-      label: "Category Title",
+      label: "Title",
       required: true,
     },
     {
       name: "description",
       type: "richText",
-      label: "tag Description",
-      required: true,
+      label: "Description",
     },
     {
       name: "author",
