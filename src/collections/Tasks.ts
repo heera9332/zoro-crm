@@ -6,6 +6,9 @@ export const Tasks: CollectionConfig = {
     singular: "Task",
     plural: "Tasks",
   },
+  admin: {
+    useAsTitle: "title"
+  },
   fields: [
     {
       name: "title",
@@ -14,16 +17,14 @@ export const Tasks: CollectionConfig = {
       required: true,
     },
     {
-      name: "description",
-      type: "textarea",
-      label: "Task Description",
-      required: true,
+      name: "content",
+      type: "richText",
+      label: "Task Description", 
     },
     {
       name: "dueDate",
       type: "date",
       label: "Due Date",
-      
     },
     {
       name: "status",
@@ -42,6 +43,15 @@ export const Tasks: CollectionConfig = {
       relationTo: "users",
       label: "Assigned To",
       hasMany: true,
+    },
+    {
+      name: "project",
+      type: "relationship",
+      relationTo: "projects",
+      label: "Project",
+      admin: {
+        position: "sidebar",
+      },
     },
   ],
   timestamps: true,

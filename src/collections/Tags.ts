@@ -6,6 +6,9 @@ export const Tags: CollectionConfig = {
     singular: "Tag",
     plural: "Tags",
   },
+  admin: {
+    useAsTitle: "title"
+  },
   fields: [
     {
       name: "title",

@@ -17,6 +17,13 @@ export const Posts: CollectionConfig = {
       required: true,
     },
     {
+      name: "slug",
+      type: "text",
+      label: "Slug",
+      required: true,
+      unique: true,
+    },
+    {
       name: "content",
       type: "richText",
       label: "Post Content",
@@ -24,9 +31,8 @@ export const Posts: CollectionConfig = {
       admin: {
         style: {
           minHeight: "400px",
-          
-        }
-      }
+        },
+      },
     },
     {
       name: "author",
@@ -35,7 +41,7 @@ export const Posts: CollectionConfig = {
       label: "Author",
       admin: {
         position: "sidebar",
-      }
+      },
     },
     {
       name: "status",
@@ -49,7 +55,7 @@ export const Posts: CollectionConfig = {
       defaultValue: "draft",
       admin: {
         position: "sidebar",
-      }
+      },
     },
     {
       name: "featuredImage",
@@ -58,7 +64,7 @@ export const Posts: CollectionConfig = {
       label: "Featured Image",
       admin: {
         position: "sidebar",
-      }
+      },
     },
   ],
 };

@@ -79,6 +79,7 @@ export interface Config {
     comments: Comment;
     chats: Chat;
     messages: Message;
+    workspaces: Workspace;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -97,6 +98,7 @@ export interface Config {
     comments: CommentsSelect<false> | CommentsSelect<true>;
     chats: ChatsSelect<false> | ChatsSelect<true>;
     messages: MessagesSelect<false> | MessagesSelect<true>;
+    workspaces: WorkspacesSelect<false> | WorkspacesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -116,22 +118,34 @@ export interface Config {
   };
 }
 export interface UserAuthOperations {
-  forgotPassword: {
-    email: string;
-    password: string;
-  };
-  login: {
-    email: string;
-    password: string;
-  };
+  forgotPassword:
+    | {
+        email: string;
+      }
+    | {
+        username: string;
+      };
+  login:
+    | {
+        email: string;
+        password: string;
+      }
+    | {
+        password: string;
+        username: string;
+      };
   registerFirstUser: {
-    email: string;
     password: string;
+    username: string;
+    email?: string;
   };
-  unlock: {
-    email: string;
-    password: string;
-  };
+  unlock:
+    | {
+        email: string;
+      }
+    | {
+        username: string;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -139,9 +153,10 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
-  roles: ('admin' | 'manager' | 'sales' | 'developer' | 'support')[];
+  roles: ('admin' | 'manager' | 'sales' | 'developer' | 'support' | 'customer')[];
   firstName: string;
-  lastName: string;
+  lastName?: string | null;
+  workspaces?: (string | Workspace)[] | null;
   phone?: string | null;
   position?: string | null;
   isActive?: boolean | null;
@@ -151,7 +166,8 @@ export interface User {
   bio?: string | null;
   updatedAt: string;
   createdAt: string;
-  email: string;
+  email?: string | null;
+  username: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
   salt?: string | null;
@@ -159,6 +175,19 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workspaces".
+ */
+export interface Workspace {
+  id: string;
+  name: string;
+  slug?: string | null;
+  description?: string | null;
+  users?: (string | User)[] | null;
+  createdAt: string;
+  updatedAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -212,7 +241,7 @@ export interface Category {
 export interface Tag {
   id: string;
   title: string;
-  description: {
+  description?: {
     root: {
       type: string;
       children: {
@@ -226,7 +255,7 @@ export interface Tag {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   author?: (string | null) | User;
   status?: ('draft' | 'published' | 'archived') | null;
   updatedAt: string;
@@ -239,6 +268,7 @@ export interface Tag {
 export interface Post {
   id: string;
   title: string;
+  slug: string;
   content: {
     root: {
       type: string;
@@ -303,8 +333,24 @@ export interface Note {
 export interface Project {
   id: string;
   title: string;
-  description?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  tasks?: (string | Task)[] | null;
   dueDate?: string | null;
+  featuredImage?: (string | null) | Media;
   priority?: ('low' | 'medium' | 'high') | null;
   status?: ('not-started' | 'doing' | 'in-progress' | 'completed' | 'cancelled') | null;
   assignedTo?: (string | User)[] | null;
@@ -317,6 +363,35 @@ export interface Project {
    * View all logged timeline events
    */
   timeline?: (string | Timeline)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tasks".
+ */
+export interface Task {
+  id: string;
+  title: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  dueDate?: string | null;
+  status?: ('to-do' | 'in-progress' | 'completed') | null;
+  assignedTo?: (string | User)[] | null;
+  project?: (string | null) | Project;
   updatedAt: string;
   createdAt: string;
 }
@@ -337,24 +412,11 @@ export interface Timeline {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tasks".
- */
-export interface Task {
-  id: string;
-  title: string;
-  description: string;
-  dueDate?: string | null;
-  status?: ('to-do' | 'in-progress' | 'completed') | null;
-  assignedTo?: (string | User)[] | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "comments".
  */
 export interface Comment {
   id: string;
+  title: string;
   content: string;
   author: string | User;
   commentedOn:
@@ -492,6 +554,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'messages';
         value: string | Message;
+      } | null)
+    | ({
+        relationTo: 'workspaces';
+        value: string | Workspace;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -543,6 +609,7 @@ export interface UsersSelect<T extends boolean = true> {
   roles?: T;
   firstName?: T;
   lastName?: T;
+  workspaces?: T;
   phone?: T;
   position?: T;
   isActive?: T;
@@ -550,6 +617,7 @@ export interface UsersSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   email?: T;
+  username?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
   salt?: T;
@@ -604,6 +672,7 @@ export interface TagsSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  slug?: T;
   content?: T;
   author?: T;
   status?: T;
@@ -636,7 +705,9 @@ export interface NotesSelect<T extends boolean = true> {
 export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
+  tasks?: T;
   dueDate?: T;
+  featuredImage?: T;
   priority?: T;
   status?: T;
   assignedTo?: T;
@@ -652,10 +723,11 @@ export interface ProjectsSelect<T extends boolean = true> {
  */
 export interface TasksSelect<T extends boolean = true> {
   title?: T;
-  description?: T;
+  content?: T;
   dueDate?: T;
   status?: T;
   assignedTo?: T;
+  project?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -678,6 +750,7 @@ export interface TimelineSelect<T extends boolean = true> {
  * via the `definition` "comments_select".
  */
 export interface CommentsSelect<T extends boolean = true> {
+  title?: T;
   content?: T;
   author?: T;
   commentedOn?: T;
@@ -716,6 +789,18 @@ export interface MessagesSelect<T extends boolean = true> {
   seenBy?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workspaces_select".
+ */
+export interface WorkspacesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  users?: T;
+  createdAt?: T;
+  updatedAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

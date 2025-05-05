@@ -5,6 +5,7 @@ import express from "express";
 import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
 
+import { Workspaces } from "./collections/Workspaces";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Tasks } from "./collections/Tasks";
@@ -28,6 +29,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  
   collections: [
     Users,
     Media,
@@ -41,6 +43,7 @@ export default buildConfig({
     Comments,
     Chats,
     Messages,
+    Workspaces,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

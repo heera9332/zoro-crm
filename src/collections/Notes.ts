@@ -8,7 +8,13 @@ export const Notes: CollectionConfig = {
     singular: "Note",
     plural: "Notes",
   },
-
+  access: {
+    // Restrict access to the note to only the author or collaborators
+    read: () => true,
+    create: ({ req }) => true,
+    update: ({ req }) => true,
+    delete: ({ req }) => true,
+  },
   fields: [
     {
       name: "title",
@@ -17,9 +23,6 @@ export const Notes: CollectionConfig = {
       required: true,
     },
     {
-      admin: {
-        readOnly: true,
-      },
       access: {
         read: () => true,
       },
@@ -71,6 +74,15 @@ export const Notes: CollectionConfig = {
       admin: {
         position: "sidebar",
         description: "Users who can collaborate on this note",
+      },
+      access: {
+        create: ({ req, data }) => {
+          return (
+            req?.user?.roles.some(
+              (role) => role == "admin" || role == "manager"
+            ) ?? false
+          );
+        },
       },
     },
     {

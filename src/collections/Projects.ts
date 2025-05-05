@@ -2,48 +2,28 @@ import type { CollectionConfig } from "payload";
 
 export const Projects: CollectionConfig = {
   slug: "projects",
-
-  hooks: {
-    afterChange: [
-      async ({ doc, req, operation }) => {
-        const userId = req?.user?.id;
-        let action = "";
-
-        if (operation === "create") action = "Created Project";
-        else if (operation === "update") action = "Updated Project";
-
-        if (action) {
-          await req.payload.create({
-            collection: "timeline",
-            data: {
-              project: doc.id,
-              action,
-              performedBy: userId,
-              details: `${action} titled "${doc.title}"`,
-            },
-          });
-        }
-      },
-    ],
-    afterDelete: [
-      async ({ doc, req }) => {
-        const userId = req?.user?.id;
-
-        await req.payload.create({
-          collection: "timeline",
-          data: {
-            project: doc.id,
-            action: "Deleted Project",
-            performedBy: userId,
-            details: `Deleted project titled "${doc.title}"`,
-          },
-        });
-      },
-    ],
+  admin: {
+    useAsTitle: "title",
   },
   labels: {
     singular: "Project",
     plural: "Projects",
+  },
+  access: {
+    create: ({ req }) => {
+      return (
+        req.user?.roles.some((role) => role == "admin" || role == "manager") ??
+        false
+      );
+    },
+    read: () => true,
+    update: () => true,
+    delete: ({ req }) => {
+      return (
+        req.user?.roles.some((role) => role == "admin" || role == "manager") ??
+        false
+      );
+    },
   },
   fields: [
     {
@@ -54,13 +34,32 @@ export const Projects: CollectionConfig = {
     },
     {
       name: "description",
-      type: "textarea",
+      type: "richText",
       label: "Description",
+    },
+    {
+      name: "tasks",
+      type: "relationship",
+      relationTo: "tasks", // Linking tasks collection here
+      label: "Tasks",
+      hasMany: true, // Multiple tasks can be linked to one project
+      admin: {
+        isSortable: true,
+      },
     },
     {
       name: "dueDate",
       type: "date",
       label: "Due Date",
+    },
+    {
+      label: "Featured Image",
+      name: "featuredImage",
+      type: "upload",
+      relationTo: "media",
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "priority",
@@ -133,5 +132,5 @@ export const Projects: CollectionConfig = {
         description: "View all logged timeline events",
       },
     },
-  ],
+  ], 
 };

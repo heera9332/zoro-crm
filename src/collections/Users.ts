@@ -1,14 +1,13 @@
-import type { CollectionConfig } from 'payload';
+import type { CollectionConfig } from "payload";
 
 export const Users: CollectionConfig = {
-  slug: 'users',
+  slug: "users",
   labels: {
-    singular: 'User',
-    plural: 'Users',
-  },  
-  
+    singular: "User",
+    plural: "Users",
+  },
   admin: {
-    useAsTitle: 'firstName',
+    useAsTitle: "firstName",
   },
   auth: {
     loginWithUsername: {
@@ -30,7 +29,14 @@ export const Users: CollectionConfig = {
         { label: "Sales", value: "sales" },
         { label: "Developer", value: "developer" },
         { label: "Support", value: "support" },
+        { label: "Customer", value: "customer" },
       ],
+      access: {
+        create: () => false,
+        read: () => true,
+        update: ({ req }) =>
+          req.user?.roles.some((single) => single === "admin") ?? false,
+      },
     },
     {
       name: "firstName",
@@ -42,13 +48,12 @@ export const Users: CollectionConfig = {
       name: "lastName",
       type: "text",
       label: "Last Name",
-      required: true,
     },
     {
-      name: 'workspaces',
-      type: 'relationship',
-      relationTo: 'workspaces', // Referring to the workspaces collection
-      hasMany: true,  // This allows the user to belong to multiple workspaces
+      name: "workspaces",
+      type: "relationship",
+      relationTo: "workspaces", // Referring to the workspaces collection
+      hasMany: true, // This allows the user to belong to multiple workspaces
     },
     {
       name: "phone",
@@ -75,4 +80,11 @@ export const Users: CollectionConfig = {
       },
     },
   ],
+
+  access: {
+    create: () => false,
+    read: () => false,
+    update: ({ req }) =>
+      req.user?.roles.some((single) => single === "admin") ?? false,
+  },
 };
