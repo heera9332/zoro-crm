@@ -1,15 +1,11 @@
 import "@/app/globals.css";
-import Navbar from "@/components/navbar";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Page({ children }) {
   return (
-    <html lang="en">
+    <html>
+      <head></head>
       <body>
-        <Navbar>{children}</Navbar>
+        {children}
       </body>
     </html>
   );
