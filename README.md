@@ -1,9 +1,46 @@
-# Payload 3 with Custom Server
+## Guide 
 
-Run the following command to create a project from the example:
+*Run App Dev*
 
-- `npx create-payload-app --example custom-server`
+```sh
+npm run dev
+```
 
-Uses a [Next.js Custom Server](https://nextjs.org/docs/pages/building-your-application/configuring/custom-server) with express.
+*Production mode*
 
-Made from official [examples/custom-server](https://github.com/vercel/next.js/tree/canary/examples/custom-server) from Next.js repository.
+> after build
+
+```sh
+npm run start
+```
+
+*Run custom port*
+
+```sh
+npm run dev -p 3003
+```
+
+## Dashboard Style Guide
+
+- Every dashboard has two style layout
+  1. single column layout > main-container <= 1024
+  2. double column layout > main-container <= 1260
+
+## Dashboard reference
+
+- cloudflare
+
+## Add Workspace feature
+
+- working on workspace
+
+CollectionSlug 
+
+https://chatgpt.com/c/681699db-e784-8009-bb3e-b64b4a149040
+
+
+## Todos
+
+- add notification to the admin
+- enable signup
+- 
