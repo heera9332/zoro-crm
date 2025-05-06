@@ -32,10 +32,9 @@ export const Users: CollectionConfig = {
         { label: "Customer", value: "customer" },
       ],
       access: {
-        create: () => false,
-        read: () => true,
-        update: ({ req }) =>
-          req.user?.roles.some((single) => single === "admin") ?? false,
+        create: ({ req }) => req.user?.roles.includes("admin") ?? false,
+        read: ({ req }) => req.user?.roles.includes("admin") ?? false,
+        update: ({ req }) => req.user?.roles.includes("admin") ?? false,
       },
     },
     {
@@ -52,8 +51,8 @@ export const Users: CollectionConfig = {
     {
       name: "workspaces",
       type: "relationship",
-      relationTo: "workspaces", // Referring to the workspaces collection
-      hasMany: true, // This allows the user to belong to multiple workspaces
+      relationTo: "workspaces",
+      hasMany: true,
     },
     {
       name: "phone",
@@ -82,9 +81,16 @@ export const Users: CollectionConfig = {
   ],
 
   access: {
-    create: () => false,
-    read: () => false,
-    update: ({ req }) =>
-      req.user?.roles.some((single) => single === "admin") ?? false,
+    // ✅ Only admin can create users
+    create: ({ req }) => req.user?.roles.includes("admin") ?? false,
+
+    // ✅ Only admin can read users
+    read: ({ req }) => req.user?.roles.includes("admin") ?? false,
+
+    // ✅ Only admin can update users
+    update: ({ req }) => req.user?.roles.includes("admin") ?? false,
+
+    // ✅ Only admin can delete users
+    delete: ({ req }) => req.user?.roles.includes("admin") ?? false,
   },
 };

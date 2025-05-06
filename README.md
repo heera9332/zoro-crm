@@ -43,4 +43,5 @@ https://chatgpt.com/c/681699db-e784-8009-bb3e-b64b4a149040
 
 - add notification to the admin
 - enable signup
+- add events and calendar
 - 
