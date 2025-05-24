@@ -20,6 +20,8 @@ import { Timeline } from "./collections/Timeline";
 import { Comments } from "./collections/Comments";
 import { Chats } from "./collections/Chats";
 import { Messages } from "./collections/Messages";
+import { Events } from "./collections/Events";
+import { Todos } from "./collections/Todos";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -60,6 +62,8 @@ export default buildConfig({
     Chats,
     Messages,
     Workspaces,
+    Events,
+    Todos
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

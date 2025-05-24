@@ -80,6 +80,7 @@ export interface Config {
     chats: Chat;
     messages: Message;
     workspaces: Workspace;
+    events: Event;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -101,6 +102,7 @@ export interface Config {
     chats: ChatsSelect<false> | ChatsSelect<true>;
     messages: MessagesSelect<false> | MessagesSelect<true>;
     workspaces: WorkspacesSelect<false> | WorkspacesSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -506,6 +508,37 @@ export interface Message {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: string;
+  title: string;
+  description?: string | null;
+  start: string;
+  end: string;
+  location?: string | null;
+  attendees?:
+    | {
+        email: string;
+        name?: string | null;
+        responseStatus?: ('accepted' | 'declined' | 'tentative' | 'needsAction') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * RRULE string (e.g., FREQ=WEEKLY;BYDAY=MO)
+   */
+  recurrence?: string | null;
+  /**
+   * Google Calendar Event ID (used for syncing)
+   */
+  googleCalendarId?: string | null;
+  syncedWithGoogle?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
 export interface Form {
@@ -753,6 +786,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'workspaces';
         value: string | Workspace;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: string | Event;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1004,6 +1041,30 @@ export interface WorkspacesSelect<T extends boolean = true> {
   users?: T;
   createdAt?: T;
   updatedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  start?: T;
+  end?: T;
+  location?: T;
+  attendees?:
+    | T
+    | {
+        email?: T;
+        name?: T;
+        responseStatus?: T;
+        id?: T;
+      };
+  recurrence?: T;
+  googleCalendarId?: T;
+  syncedWithGoogle?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
