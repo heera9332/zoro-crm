@@ -78,7 +78,6 @@ export const Projects: CollectionConfig = {
       label: "Status",
       options: [
         { label: "Not started", value: "not-started" },
-        { label: "Doing", value: "doing" },
         { label: "In Progress", value: "in-progress" },
         { label: "Completed", value: "completed" },
         { label: "Cancelled", value: "cancelled" },

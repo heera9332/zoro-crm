@@ -3,7 +3,7 @@
 *Run App Dev*
 
 ```sh
-npm run dev
+bun run dev
 ```
 
 *Production mode*
@@ -11,13 +11,19 @@ npm run dev
 > after build
 
 ```sh
-npm run start
+bun run start
 ```
 
 *Run custom port*
 
 ```sh
-npm run dev -p 3003
+bun run dev -p 3003
+```
+
+*Run on app on local network*
+
+```sh
+bun run start -H 0.0.0.0
 ```
 
 ## Dashboard Style Guide
@@ -44,4 +50,4 @@ https://chatgpt.com/c/681699db-e784-8009-bb3e-b64b4a149040
 - add notification to the admin
 - enable signup
 - add events and calendar
-- 
+- todo

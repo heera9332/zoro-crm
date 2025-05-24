@@ -53,6 +53,20 @@ export const Tasks: CollectionConfig = {
         position: "sidebar",
       },
     },
+     {
+      name: "priority",
+      type: "select",
+      label: "Priority",
+      options: [
+        { label: "Low", value: "low" },
+        { label: "Medium", value: "medium" },
+        { label: "High", value: "high" },
+      ],
+      defaultValue: "medium",
+      admin: {
+        position: "sidebar"
+      }
+    },
   ],
   timestamps: true,
 };
