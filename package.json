@@ -1,6 +1,12 @@
 {
   "name": "zoro-crm",
+  "version": "0.0.1",
   "type": "module",
+  "author": {
+    "name": "Heera Singh",
+    "url": "https://www.github.com/heera9331",
+    "email": "heera9331@gmail.com"
+  },
   "scripts": {
     "build": "next build && tsc --project tsconfig.server.json",
     "dev": "nodemon",
