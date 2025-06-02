@@ -1,3 +1,13 @@
+Zoro CRM is a powerfull CRM for managment in an organization
+
+## Features
+
+- Stable
+- Flexible
+- Safe & Secure
+- Easy to setup
+- Open Source
+
 ## Guide 
 
 *Run App Dev*
@@ -35,6 +45,7 @@ bun run start -H 0.0.0.0
 ## Dashboard reference
 
 - cloudflare
+- titan email box - web app
 
 ## Add Workspace feature
 
@@ -51,3 +62,4 @@ https://chatgpt.com/c/681699db-e784-8009-bb3e-b64b4a149040
 - enable signup
 - add events and calendar
 - todo
+- 
