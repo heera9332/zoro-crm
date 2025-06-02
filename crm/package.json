@@ -1,0 +1,27 @@
+{
+  "name": "crm",
+  "module": "index.ts",
+  "type": "module",
+  "author": {
+    "email": "heera9331@gmail.com",
+    "url": "https://www.github.com/heera9331",
+    "name": "Heera Singh"
+  },
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build:css": "bunx tailwindcss build -o dist/style.css",
+    "start": "bunx http-server"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "tailwindcss": "3.4.17",
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35"
+  }
+}
