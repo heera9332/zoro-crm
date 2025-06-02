@@ -1,5 +1,13 @@
 Zoro CRM is a powerfull CRM for managment in an organization
 
+## Features
+
+- Stable
+- Flexible
+- Safe & Secure
+- Easy to setup
+- Open Source
+
 ## Guide 
 
 *Run App Dev*
