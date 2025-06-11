@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
+import Loader from "../dashboard/_components/loader";
 
-function page() {
+function page({ ...args }) {
   return (
-    <div>
+    <div {...args}>
       <h2>Test Page</h2>
+
+      <Loader />
     </div>
-  )
+  );
 }
 
-export default page
+export default page;
