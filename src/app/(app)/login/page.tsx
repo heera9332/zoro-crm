@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth";
+import { Suspense } from "react";
 
 function AuthForm() {
   const searchParams = useSearchParams();
@@ -157,8 +158,8 @@ function AuthForm() {
                     ? "Logging in..."
                     : "Registering..."
                   : action === "login"
-                  ? "Login"
-                  : "Register"}
+                    ? "Login"
+                    : "Register"}
               </button>
             </div>
           </form>
@@ -185,4 +186,10 @@ function AuthForm() {
   );
 }
 
-export default AuthForm;
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthForm />
+    </Suspense>
+  );
+}
