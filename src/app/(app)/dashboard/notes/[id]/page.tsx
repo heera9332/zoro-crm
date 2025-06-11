@@ -64,11 +64,19 @@ export default function Page() {
           <div className="mb-4">
             <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
             <div className="flex gap-4 mt-2 text-sm text-gray-500">
-              <span>Status: <span className="capitalize">{status}</span></span>
-              <span>Priority: <span className="capitalize">{priority}</span></span>
+              <span>
+                Status: <span className="capitalize">{status}</span>
+              </span>
+              <span>
+                Priority: <span className="capitalize">{priority}</span>
+              </span>
               {dueDate && (
                 <span>
-                  Due: {new Date(dueDate).toLocaleDateString()} {new Date(dueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  Due: {new Date(dueDate).toLocaleDateString()}{" "}
+                  {new Date(dueDate).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </span>
               )}
             </div>
@@ -82,12 +90,24 @@ export default function Page() {
             <div className="mt-8">
               <h2 className="text-xl font-semibold mb-2">Notes</h2>
               <div className="space-y-4">
-                {notes.map((note) => (
-                  <div key={note?.id} className="border-l-4 border-orange-300 pl-4 bg-orange-50/40 rounded-md py-2">
-                    <Link href={`/dashboard/notes/${note?.id}`} className="font-semibold">{note?.title}</Link> 
-
-                  </div>
-                ))}
+                {notes.map((note) => {
+                  return (
+                    <div
+                      // @ts-ignore
+                      key={note?.id}
+                      className="border-l-4 border-orange-300 pl-4 bg-orange-50/40 rounded-md py-2"
+                    >
+                      <Link
+                        //  @ts-ignore
+                        href={`/dashboard/notes/${note?.id}`}
+                        className="font-semibold"
+                      >
+                        {/* @ts-ignore */}
+                        {note?.title}
+                      </Link>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -97,9 +117,13 @@ export default function Page() {
           <div className="mb-6">
             <div className="rounded-xl overflow-hidden border border-gray-100 bg-orange-50 p-2">
               <Image
+                // @ts-ignore
                 src={featuredImage?.url || "/placeholder.jpg"}
+                // @ts-ignore
                 width={featuredImage?.width || 360}
+                // @ts-ignore
                 height={featuredImage?.height || 180}
+                // @ts-ignore
                 alt={featuredImage?.alt || "project image"}
                 className="rounded-lg object-cover w-full h-auto"
               />
@@ -107,13 +131,18 @@ export default function Page() {
           </div>
           <div className="text-sm text-gray-600 space-y-1">
             <div>
-              <span className="font-medium">Created:</span> {createdAt && new Date(createdAt).toLocaleString()}
+              <span className="font-medium">Created:</span>{" "}
+              {createdAt && new Date(createdAt).toLocaleString()}
             </div>
             <div>
-              <span className="font-medium">Updated:</span> {updatedAt && new Date(updatedAt).toLocaleString()}
+              <span className="font-medium">Updated:</span>{" "}
+              {updatedAt && new Date(updatedAt).toLocaleString()}
             </div>
             <div>
-              <span className="font-medium">Assigned To:</span> {assignedTo && Array.isArray(assignedTo) ? assignedTo.join(", ") : assignedTo}
+              <span className="font-medium">Assigned To:</span>{" "}
+              {assignedTo && Array.isArray(assignedTo)
+                ? assignedTo.join(", ")
+                : assignedTo}
             </div>
           </div>
         </div>

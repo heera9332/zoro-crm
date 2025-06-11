@@ -1,9 +1,9 @@
 import React from "react";
 import Loader from "../dashboard/_components/loader";
 
-function page({ ...args }) {
+function page() {
   return (
-    <div {...args}>
+    <div>
       <h2>Test Page</h2>
 
       <Loader />
