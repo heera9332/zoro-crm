@@ -162,7 +162,7 @@ export interface UserAuthOperations {
 export interface User {
   id: string;
   roles: ('admin' | 'manager' | 'sales' | 'developer' | 'support' | 'customer')[];
-  firstName: string;
+  firstName?: string | null;
   lastName?: string | null;
   workspaces?: (string | Workspace)[] | null;
   phone?: string | null;
