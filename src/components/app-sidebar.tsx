@@ -1,8 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { ArchiveX, Command, File, Inbox, Send, Trash2 } from "lucide-react";
-
+import {
+  Command,
+  File,
+  LayoutDashboard,
+  ListChecks,
+  KanbanSquare,
+  ListTodo,
+  StickyNote,
+  User,
+} from "lucide-react";
 import { NavUser } from "@/components/nav-user";
 import { Label } from "@/components/ui/label";
 import {
@@ -19,8 +27,9 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Switch } from "@/components/ui/switch";
+import Link from "next/link";
 
-// This is sample data
+// Sample data
 const data = {
   user: {
     name: "shadcn",
@@ -29,51 +38,50 @@ const data = {
   },
   navMain: [
     {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: LayoutDashboard,
       isActive: true,
     },
-    {
-      title: "Drafts",
-      url: "#",
-      icon: File,
-      isActive: false,
-    },
   ],
-  mails: [
+  navSubMenu: [
     {
-      name: "William Smith",
-      email: "williamsmith@example.com",
-      subject: "Meeting Tomorrow",
-      date: "09:34 AM",
-      teaser:
-        "Hi team, just a reminder about our meeting tomorrow at 10 AM.\nPlease come prepared with your project updates.",
+      subject: "Dashboard",
+      link: "/dashboard/",
+      icon: LayoutDashboard,
     },
     {
-      name: "Alice Smith",
-      email: "alicesmith@example.com",
-      subject: "Re: Project Update",
-      date: "Yesterday",
-      teaser:
-        "Thanks for the update. The progress looks great so far.\nLet's schedule a call to discuss the next steps.",
+      subject: "Tasks",
+      link: "/dashboard/tasks",
+      icon: ListChecks,
     },
     {
-      name: "Bob Johnson",
-      email: "bobjohnson@example.com",
-      subject: "Weekend Plans",
-      date: "2 days ago",
-      teaser:
-        "Hey everyone! I'm thinking of organizing a team outing this weekend.\nWould you be interested in a hiking trip or a beach day?",
+      subject: "Projects",
+      link: "/dashboard/projects",
+      icon: KanbanSquare,
+    },
+    {
+      subject: "Todos",
+      link: "/dashboard/todos",
+      icon: ListTodo,
+    },
+    {
+      subject: "Notes",
+      link: "/dashboard/notes",
+      icon: StickyNote,
+    },
+    {
+      subject: "Account",
+      link: "/dashboard/account",
+      icon: User,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  // Note: I'm using state to show active item.
-  // IRL you should use the url/router.
   const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
-  const [mails, setMails] = React.useState(data.mails);
+  const [activeMailSubject, setActiveMailSubject] = React.useState("");
+  const [mails, setMails] = React.useState(data.navSubMenu);
   const { setOpen } = useSidebar();
 
   return (
@@ -82,9 +90,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       className="overflow-hidden *:data-[sidebar=sidebar]:flex-row"
       {...props}
     >
-      {/* This is the first sidebar */}
-      {/* We disable collapsible and adjust width to icon. */}
-      {/* This will make the sidebar appear as icons. */}
+      {/* First sidebar: icons only */}
       <Sidebar
         collapsible="none"
         className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r"
@@ -94,7 +100,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
                 <a href="#">
-                  <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <div className="bg-sidebar-primary flex aspect-square size-8 items-center justify-center rounded-lg">
                     <Command className="size-4" />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
@@ -119,13 +125,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       }}
                       onClick={() => {
                         setActiveItem(item);
-                        const mail = data.mails.sort(() => Math.random() - 0.5);
-                        setMails(
-                          mail.slice(
-                            0,
-                            Math.max(5, Math.floor(Math.random() * 10) + 1)
-                          )
-                        );
                         setOpen(true);
                       }}
                       isActive={activeItem?.title === item.title}
@@ -145,17 +144,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarFooter>
       </Sidebar>
 
-      {/* This is the second sidebar */}
-      {/* We disable collapsible and let it fill remaining space */}
+      {/* Second sidebar: main menu content */}
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
         <SidebarHeader className="gap-3.5 border-b p-4">
           <div className="flex w-full items-center justify-between">
             <div className="text-foreground text-base font-medium">
               {activeItem?.title}
             </div>
-            <Label className="flex items-center gap-2 text-sm">
-              <Switch className="shadow-none" />
-            </Label>
           </div>
           <SidebarInput placeholder="Type to search..." />
         </SidebarHeader>
@@ -163,20 +158,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroup className="px-0">
             <SidebarGroupContent>
               {mails.map((mail) => (
-                <a
-                  href="#"
-                  key={mail.email}
-                  className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex flex-col items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0"
+                <Link
+                  href={mail.link}
+                  key={mail.link}
+                  className={`gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0`}
+                  onClick={() => setActiveMailSubject(mail.subject)}
                 >
-                  <div className="flex w-full items-center gap-2">
-                    <span>{mail.name}</span>{" "}
-                    <span className="ml-auto text-xs">{mail.date}</span>
-                  </div>
-                  <span className="font-medium">{mail.subject}</span>
-                  <span className="line-clamp-2 w-[260px] text-xs whitespace-break-spaces">
-                    {mail.teaser}
+                  {/* Render the respective icon */}
+                  <mail.icon size={16} />
+                  <span
+                    className={`transition ${activeMailSubject === mail.subject ? "font-medium" : "font-normal"}`}
+                  >
+                    {mail.subject}
                   </span>
-                </a>
+                </Link>
               ))}
             </SidebarGroupContent>
           </SidebarGroup>
