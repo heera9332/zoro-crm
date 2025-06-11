@@ -33,7 +33,7 @@ bun run dev -p 3003
 *Run on app on local network*
 
 ```sh
-bun run start -H 0.0.0.0
+bun run start -H 0.0.0.0 -p 3003
 ```
 
 ## Dashboard Style Guide

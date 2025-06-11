@@ -3,6 +3,7 @@ export const Notes: CollectionConfig = {
   slug: "notes",
   admin: {
     useAsTitle: "title",
+    
   },
   labels: {
     singular: "Note",

@@ -1,5 +1,5 @@
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
@@ -28,8 +28,8 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
   email: nodemailerAdapter({
-    defaultFromAddress: 'info@payloadcms.com',
-    defaultFromName: 'Payload',
+    defaultFromAddress: "info@payloadcms.com",
+    defaultFromName: "Payload",
     // Nodemailer transportOptions
     transportOptions: {
       host: process.env.SMTP_HOST,
@@ -63,7 +63,8 @@ export default buildConfig({
     Messages,
     Workspaces,
     Events,
-    Todos
+    Todos,
+   
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

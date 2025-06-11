@@ -81,6 +81,7 @@ export interface Config {
     messages: Message;
     workspaces: Workspace;
     events: Event;
+    Todos: Todo;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -103,6 +104,7 @@ export interface Config {
     messages: MessagesSelect<false> | MessagesSelect<true>;
     workspaces: WorkspacesSelect<false> | WorkspacesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    Todos: TodosSelect<false> | TodosSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -358,7 +360,7 @@ export interface Project {
   dueDate?: string | null;
   featuredImage?: (string | null) | Media;
   priority?: ('low' | 'medium' | 'high') | null;
-  status?: ('not-started' | 'doing' | 'in-progress' | 'completed' | 'cancelled') | null;
+  status?: ('not-started' | 'in-progress' | 'completed' | 'cancelled') | null;
   assignedTo?: (string | User)[] | null;
   notes?: (string | Note)[] | null;
   /**
@@ -398,6 +400,7 @@ export interface Task {
   status?: ('to-do' | 'in-progress' | 'completed') | null;
   assignedTo?: (string | User)[] | null;
   project?: (string | null) | Project;
+  priority?: ('low' | 'medium' | 'high') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -534,6 +537,35 @@ export interface Event {
    */
   googleCalendarId?: string | null;
   syncedWithGoogle?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Todos".
+ */
+export interface Todo {
+  id: string;
+  title: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  dueDate?: string | null;
+  status?: ('to-do' | 'in-progress' | 'completed') | null;
+  author?: (string | null) | User;
+  project?: (string | null) | Project;
   updatedAt: string;
   createdAt: string;
 }
@@ -792,6 +824,10 @@ export interface PayloadLockedDocument {
         value: string | Event;
       } | null)
     | ({
+        relationTo: 'Todos';
+        value: string | Todo;
+      } | null)
+    | ({
         relationTo: 'forms';
         value: string | Form;
       } | null)
@@ -968,6 +1004,7 @@ export interface TasksSelect<T extends boolean = true> {
   status?: T;
   assignedTo?: T;
   project?: T;
+  priority?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1063,6 +1100,20 @@ export interface EventsSelect<T extends boolean = true> {
   recurrence?: T;
   googleCalendarId?: T;
   syncedWithGoogle?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Todos_select".
+ */
+export interface TodosSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  dueDate?: T;
+  status?: T;
+  author?: T;
+  project?: T;
   updatedAt?: T;
   createdAt?: T;
 }
