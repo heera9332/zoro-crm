@@ -13,39 +13,47 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { ProjectSearch } from "../_components/project-search";
+import { useSearchParams } from "next/navigation";
 
 function Page() {
   const projects = useAppStore((s) => s.projects);
   const loadProjects = useAppStore((s) => s.loadProjects);
   const loadingProjects = useAppStore((s) => s.loadingProjects);
   const projectsPagination = useAppStore((s) => s.projectsPagination);
+  const searchParams = useSearchParams();
 
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
+  // Get the current query and page from URL
+  const q = searchParams.get("q") || "";
+  const pageParam = searchParams.get("page");
+  const page = pageParam ? Number(pageParam) : 1;
   const limit = 10;
 
-  // Fetch projects on mount and when page/search changes
+  // Always load projects when q or page changes!
   useEffect(() => {
-    loadProjects({ limit, page, q: search });
+    loadProjects({ limit, page, q });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, search]);
+  }, [q, page]); // <-- depends on URL params
 
   const handleSearch = (query: string) => {
-    setPage(1);      // reset to first page on new search
-    setSearch(query);
+    // The actual search param is already in the URL, so do nothing here.
+    // The useEffect above will react to the URL param change.
   };
 
-  const handlePageChange = (page: number) => {
-    setPage(page);
+  const handlePageChange = (newPage: number) => {
+    // update URL with page param, preserving q param
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    params.set("page", String(newPage));
+    window.history.replaceState({}, '', `?${params.toString()}`);
+    // Use useRouter() if you prefer (recommended in Next.js App Router)
+    // router.replace(`?${params.toString()}`, { scroll: false });
+    // No need to call loadProjects here, the effect will handle it
   };
 
   return (
     <div className="app-page px-2 pb-8">
       <h1>Projects</h1>
-
-      {/* Search box */}
-      <ProjectSearch onSearch={handleSearch} loading={loadingProjects} initialValue={search} />
-
+      {/* Pass the query param as the initial value */}
+      <ProjectSearch onSearch={handleSearch} loading={loadingProjects} initialValue={q} />
       {loadingProjects && (
         <div className="flex justify-center items-center min-h-[200px]">
           <Loader />
@@ -64,7 +72,6 @@ function Page() {
               project.featuredImage?.alt
                 ? project.featuredImage.alt
                 : "project";
-
             return (
               <div
                 key={project.id}
@@ -90,7 +97,6 @@ function Page() {
         </div>
       )}
 
-      {/* Pagination */}
       {!loadingProjects && projectsPagination && projectsPagination.totalPages > 1 && (
         <div className="mt-8 flex justify-start">
           <Pagination>
