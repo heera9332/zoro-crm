@@ -1,5 +1,4 @@
-import "@/app/globals.css";
-import "@/app/app.style.css";
+ 
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,

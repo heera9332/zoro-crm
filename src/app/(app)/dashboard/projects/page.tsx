@@ -2,8 +2,7 @@
 import Link from "next/link";
 import { useAppStore } from "@/store/appStore";
 import Image from "next/image";
-import React, { useEffect } from "react";
-import Content from "../_components/contents";
+import React, { useEffect, useState } from "react";
 import Loader from "../_components/loader";
 import {
   Pagination,
@@ -13,28 +12,39 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { ProjectSearch } from "../_components/project-search";
 
 function Page() {
   const projects = useAppStore((s) => s.projects);
   const loadProjects = useAppStore((s) => s.loadProjects);
   const loadingProjects = useAppStore((s) => s.loadingProjects);
   const projectsPagination = useAppStore((s) => s.projectsPagination);
-  const limit = 10;
-  const page = 1;
 
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  // Fetch projects on mount and when page/search changes
   useEffect(() => {
-    loadProjects();
-    // Only on mount
+    loadProjects({ limit, page, q: search });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page, search]);
+
+  const handleSearch = (query: string) => {
+    setPage(1);      // reset to first page on new search
+    setSearch(query);
+  };
 
   const handlePageChange = (page: number) => {
-    loadProjects(limit, page);
+    setPage(page);
   };
 
   return (
     <div className="app-page px-2 pb-8">
       <h1>Projects</h1>
+
+      {/* Search box */}
+      <ProjectSearch onSearch={handleSearch} loading={loadingProjects} initialValue={search} />
 
       {loadingProjects && (
         <div className="flex justify-center items-center min-h-[200px]">
@@ -48,7 +58,7 @@ function Page() {
               typeof project.featuredImage === "object" &&
               project.featuredImage?.url
                 ? project.featuredImage.url
-                : "/api/media/file/4.png"; // fallback image
+                : "/api/media/file/4.png";
             const imgAlt =
               typeof project.featuredImage === "object" &&
               project.featuredImage?.alt
@@ -73,13 +83,14 @@ function Page() {
                   <Link href={`/dashboard/projects/${project.id}`}>
                     {project.title}
                   </Link>
-                </h3> 
+                </h3>
               </div>
             );
           })}
         </div>
       )}
 
+      {/* Pagination */}
       {!loadingProjects && projectsPagination && projectsPagination.totalPages > 1 && (
         <div className="mt-8 flex justify-start">
           <Pagination>

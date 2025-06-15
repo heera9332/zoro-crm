@@ -29,7 +29,7 @@ h3 {
 }
 
 .app-main {
-  max-width: 1260px; 
+  max-width: 1260px;
   margin: 0 auto;
   width: 100%;
   min-height: 100vh;
@@ -37,4 +37,45 @@ h3 {
 
 .app-page {
   padding-top: 32px;
+}
+
+/** rich text formatting if initiall style was not good */
+
+.no-tailwind ul,
+.no-tailwind ol {
+  padding-left: 12px;
+  margin: 12px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition-all duration-300 focus:outline-none;
+  }
+
+  .btn-primary {
+    @apply bg-orange-500 hover:bg-orange-600 text-white shadow-sm hover:shadow;
+  }
+
+  .btn-secondary {
+    @apply bg-orange-100 hover:bg-orange-200 text-orange-700;
+  }
+
+  .btn-outline {
+    @apply border border-orange-500 text-orange-500 hover:bg-orange-50;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-sm;
+  }
+
+  .btn-md {
+    @apply px-4 py-2 text-base;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-lg;
+  }
 }

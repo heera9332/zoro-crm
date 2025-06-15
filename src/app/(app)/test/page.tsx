@@ -1,6 +1,4 @@
 "use client";
-// app/page.tsx or pages/index.js
-import "@/app/globals.css"
 
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -31,6 +29,7 @@ import {
   Github,
   Send
 } from "lucide-react";
+import Link from "next/link";
 
 // Testimonials data
 const testimonials = [
@@ -154,12 +153,12 @@ export default function HomePage() {
               </a>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-700 hover:text-orange-500 transition-colors">Features</a>
-              <a href="#testimonials" className="text-gray-700 hover:text-orange-500 transition-colors">Testimonials</a>
-              <a href="#pricing" className="text-gray-700 hover:text-orange-500 transition-colors">Pricing</a>
-              <a href="#faq" className="text-gray-700 hover:text-orange-500 transition-colors">FAQ</a>
-              <a href="#contact" className="text-gray-700 hover:text-orange-500 transition-colors">Contact</a>
-              <button className="btn btn-secondary">Login</button>
+              <Link href="#features" className="text-gray-700 hover:text-orange-500 transition-colors">Features</Link>
+              <Link href="#testimonials" className="text-gray-700 hover:text-orange-500 transition-colors">Testimonials</Link>
+              <Link href="#pricing" className="text-gray-700 hover:text-orange-500 transition-colors">Pricing</Link>
+              <Link href="#faq" className="text-gray-700 hover:text-orange-500 transition-colors">FAQ</Link>
+              <Link href="#contact" className="text-gray-700 hover:text-orange-500 transition-colors">Contact</Link>
+              <Link href={'/login'} className="btn btn-secondary">Login</Link>
               <button className="btn btn-primary">Get Started</button>
             </div>
             <div className="md:hidden flex items-center">

@@ -1,5 +1,4 @@
 "use client";
-import "@/app/app.style.css";
 import { useParams } from "next/navigation";
 import { useAppStore } from "@/store/appStore";
 import Image from "next/image";

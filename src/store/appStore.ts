@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { axios } from "@/lib/axios";
 
-// Import your interfaces here
 import {
   User,
   Workspace,
@@ -18,15 +17,21 @@ import {
 } from "@/payload-types";
 
 interface ObjectPagination {
-  totalDocs: number
-  limit: number
-  totalPages: number
-  page: number
-  pagingCounter: number
-  hasPrevPage: boolean
-  hasNextPage: boolean
-  prevPage: number | null
-  nextPage: number | null
+  totalDocs: number;
+  limit: number;
+  totalPages: number;
+  page: number;
+  pagingCounter: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+  prevPage: number | null;
+  nextPage: number | null;
+}
+
+interface ProjectQuery {
+  limit?: number;
+  page?: number;
+  q?: string;
 }
 
 interface AppState {
@@ -41,8 +46,8 @@ interface AppState {
   tasks: Task[];
   timelines: Timeline[];
   comments: Comment[];
-  loadingProjects: Boolean,
-  projectsPagination: ObjectPagination | null,
+  loadingProjects: boolean;
+  projectsPagination: ObjectPagination | null;
 
   // CRUD actions
   addUser: (user: User) => void;
@@ -77,7 +82,7 @@ interface AppState {
   addProject: (project: Project) => void;
   updateProject: (id: string, data: Partial<Project>) => void;
   removeProject: (id: string) => void;
-  loadProjects: (limit?: number, page?: number) => Promise<void>;
+  loadProjects: (query: ProjectQuery) => Promise<void>;
 
   addTask: (task: Task) => void;
   updateTask: (id: string, data: Partial<Task>) => void;
@@ -121,12 +126,10 @@ export const useAppStore = create<AppState>()(
         })),
       loadUsers: async () => {
         try {
-          // Replace with your API endpoint
           const res = await axios.get("/api/users");
           const data: User[] = res.data.docs;
           set({ users: data });
         } catch (error) {
-          // You can also add error state here
           console.error("Failed to load users:", error);
         }
       },
@@ -216,11 +219,14 @@ export const useAppStore = create<AppState>()(
         set((state) => ({
           projects: state.projects.filter((pr) => pr.id !== id),
         })),
-      loadProjects: async (limit=10, page=1) => {
-        
+      loadProjects: async ({ limit = 10, page = 1, q = "" } = {}) => {
         set({ loadingProjects: true });
         try {
-          const res = await axios.get(`/api/projects?limit=${limit}&page=${page}`);
+          const res = await axios.get(
+            `/api/projects?limit=${limit}&page=${page}&where[title][contains]=${encodeURIComponent(
+              q ?? ""
+            )}`
+          );
           const data = res.data;
           set({
             projects: data.docs,
@@ -233,16 +239,16 @@ export const useAppStore = create<AppState>()(
               hasPrevPage: data.hasPrevPage,
               hasNextPage: data.hasNextPage,
               prevPage: data.prevPage,
-              nextPage: data.nextPage
-            }
-          })
-           
+              nextPage: data.nextPage,
+            },
+          });
         } catch (e) {
-          // Handle error here if needed
+          console.error("Failed to load projects", e);
         } finally {
           set({ loadingProjects: false });
         }
       },
+
       // Tasks
       addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
       updateTask: (id, data) =>

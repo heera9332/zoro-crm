@@ -1,6 +1,6 @@
 import "@/app/globals.css";
 
-export default function Page({ children }) {
+export default function RootLayout({ children }) {
   return (
     <html>
       <head></head>
