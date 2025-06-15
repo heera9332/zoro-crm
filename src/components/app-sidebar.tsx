@@ -10,6 +10,7 @@ import {
   ListTodo,
   StickyNote,
   User,
+  Group,
 } from "lucide-react";
 import { NavUser } from "@/components/nav-user";
 import { Label } from "@/components/ui/label";
@@ -71,9 +72,9 @@ const data = {
       icon: StickyNote,
     },
     {
-      subject: "Account",
-      link: "/dashboard/account",
-      icon: User,
+      subject: "Users",
+      link: "/dashboard/users",
+      icon: Group,
     },
   ],
 };

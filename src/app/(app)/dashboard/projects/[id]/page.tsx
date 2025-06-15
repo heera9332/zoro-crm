@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import Content from "../../_components/contents";
 import Loader from "../../_components/loader";
 import Link from "next/link";
+import { UserAvatar } from "../../_components/user-avatar";
 
 export default function Page() {
   // Get id from URL
@@ -139,10 +140,16 @@ export default function Page() {
               {updatedAt && new Date(updatedAt).toLocaleString()}
             </div>
             <div>
-              <span className="font-medium">Assigned To:</span>{" "}
-              {assignedTo && Array.isArray(assignedTo)
-                ? assignedTo.join(", ")
-                : assignedTo}
+              <span className="font-medium">Assigned To:</span>
+              <div className="flex flex-wrap items-center gap-3 mt-1">
+                {Array.isArray(assignedTo) && assignedTo.length > 0 ? (
+                  assignedTo.map((user: any) => (
+                    <UserAvatar key={user.id} user={user} />
+                  ))
+                ) : (
+                  <span className="text-gray-400 ml-2">No one assigned</span>
+                )}
+              </div>
             </div>
           </div>
         </div>

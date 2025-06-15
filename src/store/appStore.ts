@@ -82,7 +82,7 @@ interface AppState {
   addProject: (project: Project) => void;
   updateProject: (id: string, data: Partial<Project>) => void;
   removeProject: (id: string) => void;
-  loadProjects: (query: ProjectQuery) => Promise<void>;
+  loadProjects: (query?: ProjectQuery) => Promise<void>;
 
   addTask: (task: Task) => void;
   updateTask: (id: string, data: Partial<Task>) => void;

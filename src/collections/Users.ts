@@ -54,6 +54,17 @@ export const Users: CollectionConfig = {
       hasMany: true,
     },
     {
+      name: "avatar",
+      label: "Avatar",
+      type: "upload",
+      relationTo: "media",
+      required: false,
+      admin: {
+        position: "sidebar",
+        description: "Upload a profile picture (optional).",
+      },
+    },
+    {
       name: "phone",
       type: "text",
       label: "Phone Number",

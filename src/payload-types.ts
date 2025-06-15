@@ -165,6 +165,10 @@ export interface User {
   firstName?: string | null;
   lastName?: string | null;
   workspaces?: (string | Workspace)[] | null;
+  /**
+   * Upload a profile picture (optional).
+   */
+  avatar?: (string | null) | Media;
   phone?: string | null;
   position?: string | null;
   isActive?: boolean | null;
@@ -886,6 +890,7 @@ export interface UsersSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
   workspaces?: T;
+  avatar?: T;
   phone?: T;
   position?: T;
   isActive?: T;
