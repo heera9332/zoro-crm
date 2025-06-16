@@ -14,6 +14,7 @@ import {
   Task,
   Timeline,
   Comment,
+  Todo,
 } from "@/payload-types";
 
 interface ObjectPagination {
@@ -41,12 +42,19 @@ interface AppState {
   categories: Category[];
   tags: Tag[];
   posts: Post[];
+  
+  todos: Todo[];
+  loadingTodos: boolean;
+
   notes: Note[];
+  loadingNotes: boolean;
+
   projects: Project[];
   tasks: Task[];
   timelines: Timeline[];
   comments: Comment[];
   loadingProjects: boolean;
+  notesPagination: ObjectPagination | null;
   projectsPagination: ObjectPagination | null;
 
   // CRUD actions
@@ -75,6 +83,7 @@ interface AppState {
   updatePost: (id: string, data: Partial<Post>) => void;
   removePost: (id: string) => void;
 
+  getNotes: (query?: ProjectQuery) => Promise<void>;
   addNote: (note: Note) => void;
   updateNote: (id: string, data: Partial<Note>) => void;
   removeNote: (id: string) => void;
@@ -111,8 +120,11 @@ export const useAppStore = create<AppState>()(
       tasks: [],
       timelines: [],
       comments: [],
+      loadingNotes: false,
+
       loadingProjects: false,
       projectsPagination: null,
+      notesPagination: null,
 
       // Users
       addUser: (user) => set((state) => ({ users: [...state.users, user] })),
@@ -196,6 +208,35 @@ export const useAppStore = create<AppState>()(
         })),
 
       // Notes
+      getNotes: async ({ limit = 10, page = 1, q = "" } = {}) => {
+        set({ loadingNotes: true });
+        try {
+          const res = await axios.get(
+            `/api/notes?limit=${limit}&page=${page}&where[title][contains]=${encodeURIComponent(
+              q ?? ""
+            )}`
+          );
+          const data = res.data;
+          set({
+            notes: data.docs,
+            notesPagination: {
+              totalDocs: data.totalDocs,
+              limit: data.limit,
+              totalPages: data.totalPages,
+              page: data.page,
+              pagingCounter: data.pagingCounter,
+              hasPrevPage: data.hasPrevPage,
+              hasNextPage: data.hasNextPage,
+              prevPage: data.prevPage,
+              nextPage: data.nextPage,
+            },
+          });
+        } catch (e) {
+          console.error("Failed to load projects", e);
+        } finally {
+          set({ loadingNotes: false });
+        }
+      },
       addNote: (note) => set((state) => ({ notes: [...state.notes, note] })),
       updateNote: (id, data) =>
         set((state) => ({

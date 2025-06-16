@@ -37,7 +37,7 @@ export default function Page() {
   if (!project) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[300px]">
-        <h2 className="text-2xl font-bold mb-2">Project Not Found</h2>
+        <h1 className="text-2xl font-bold mb-4">Project Not Found</h1>
         <p className="text-gray-600">The requested project does not exist.</p>
       </div>
     );
@@ -63,7 +63,7 @@ export default function Page() {
         {/* Left Column */}
         <div className="flex-1">
           <div className="mb-4">
-            <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">{title}</h1>
             <div className="flex gap-4 mt-2 text-sm text-gray-500">
               <span>
                 Status: <span className="capitalize">{status}</span>

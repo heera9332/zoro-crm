@@ -1,10 +1,16 @@
 import type { CollectionConfig } from "payload";
 
 export const Todos: CollectionConfig = {
-  slug: "Todos",
+  slug: "todos",
   labels: {
     singular: "Todo",
     plural: "Todos",
+  },
+  access: {
+    read: () => true,
+    create: () => true,
+    update: () => true,
+    delete: () => true
   },
   admin: {
     useAsTitle: "title"

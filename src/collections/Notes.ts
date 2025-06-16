@@ -1,9 +1,9 @@
+import { isAdmin, isAuthor } from "@/utils/access";
 import type { CollectionConfig } from "payload";
 export const Notes: CollectionConfig = {
   slug: "notes",
   admin: {
     useAsTitle: "title",
-    
   },
   labels: {
     singular: "Note",
@@ -14,7 +14,7 @@ export const Notes: CollectionConfig = {
     read: () => true,
     create: ({ req }) => true,
     update: ({ req }) => true,
-    delete: ({ req }) => true,
+    delete: ({ req, data }) => isAdmin({ req }) || isAuthor({ req, data }),
   },
   fields: [
     {
@@ -22,6 +22,15 @@ export const Notes: CollectionConfig = {
       type: "text",
       label: "Note Title",
       required: true,
+    },
+    {
+      label: "Featured Image",
+      name: "featuredImage",
+      type: "upload",
+      relationTo: "media",
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       access: {

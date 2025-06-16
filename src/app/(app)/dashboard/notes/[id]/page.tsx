@@ -1,31 +1,33 @@
 "use client";
-import { useParams } from "next/navigation";
-import { useAppStore } from "@/store/appStore";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import { axios } from "@/lib/axios";
 import Content from "../../_components/contents";
 import Loader from "../../_components/loader";
-import Link from "next/link";
+import { Note } from "@/payload-types";
 
-export default function Page() {
-  // Get id from URL
-  const { id } = useParams();
-  const projects = useAppStore((s) => s.projects);
-  const loadProjects = useAppStore((s) => s.loadProjects);
-  const loadingProjects = useAppStore((s) => s.loadingProjects);
+export default function Page({ params }: { params: { id: string } }) {
+  const { id } = params;
+  const [note, setNote] = useState<Note | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  // Fetch all projects on mount (you can optimize later to fetch by id)
   useEffect(() => {
-    if (projects.length === 0) {
-      loadProjects();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const getNote = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`/api/notes/${id}`);
+        setNote(res.data);
+      } catch (err) {
+        console.error("Failed to fetch note:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Find the project by id
-  const project = projects.find((p) => p.id === id);
+    if (id) getNote();
+  }, [id]);
 
-  if (loadingProjects && !project) {
+  if (loading && !note) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
         <Loader />
@@ -33,28 +35,16 @@ export default function Page() {
     );
   }
 
-  if (!project) {
+  if (!note) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[300px]">
-        <h2 className="text-2xl font-bold mb-2">Project Not Found</h2>
-        <p className="text-gray-600">The requested project does not exist.</p>
+        <h2 className="text-2xl font-bold mb-2">Not Found</h2>
+        <p className="text-gray-600">The requested note does not exist.</p>
       </div>
     );
   }
 
-  // Destructure with fallbacks
-  const {
-    title,
-    description,
-    featuredImage,
-    dueDate,
-    priority,
-    status,
-    notes,
-    assignedTo,
-    createdAt,
-    updatedAt,
-  } = project;
+  const { title, createdAt, updatedAt, author, featuredImage } = note;
 
   return (
     <div className="app-page px-2 pb-8">
@@ -63,67 +53,24 @@ export default function Page() {
         <div className="flex-1">
           <div className="mb-4">
             <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-            <div className="flex gap-4 mt-2 text-sm text-gray-500">
-              <span>
-                Status: <span className="capitalize">{status}</span>
-              </span>
-              <span>
-                Priority: <span className="capitalize">{priority}</span>
-              </span>
-              {dueDate && (
-                <span>
-                  Due: {new Date(dueDate).toLocaleDateString()}{" "}
-                  {new Date(dueDate).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
-              )}
-            </div>
           </div>
-          {/* Description using your Content renderer */}
-          <div className="prose max-w-none text-gray-800">
-            {description && <Content {...description} />}
+          <div className="prose max-w-none text-gray-800 bg-gray-50 border p-4">
+            <Content {...note} />
           </div>
-          {/* Notes (if any) */}
-          {notes && notes.length > 0 && (
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold mb-2">Notes</h2>
-              <div className="space-y-4">
-                {notes.map((note) => {
-                  return (
-                    <div
-                      // @ts-ignore
-                      key={note?.id}
-                      className="border-l-4 border-orange-300 pl-4 bg-orange-50/40 rounded-md py-2"
-                    >
-                      <Link
-                        //  @ts-ignore
-                        href={`/dashboard/notes/${note?.id}`}
-                        className="font-semibold"
-                      >
-                        {/* @ts-ignore */}
-                        {note?.title}
-                      </Link>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
         </div>
+
         {/* Right Column */}
         <div className="w-full sm:w-72 flex-shrink-0">
           <div className="mb-6">
             <div className="rounded-xl overflow-hidden border border-gray-100 bg-orange-50 p-2">
               <Image
-                // @ts-ignore
-                src={featuredImage?.url || "/placeholder.jpg"}
-                // @ts-ignore
+                src={
+                  typeof featuredImage === "object" && featuredImage?.url
+                    ? featuredImage.url
+                    : "/placeholder.jpg"
+                }
                 width={featuredImage?.width || 360}
-                // @ts-ignore
                 height={featuredImage?.height || 180}
-                // @ts-ignore
                 alt={featuredImage?.alt || "project image"}
                 className="rounded-lg object-cover w-full h-auto"
               />
@@ -139,10 +86,8 @@ export default function Page() {
               {updatedAt && new Date(updatedAt).toLocaleString()}
             </div>
             <div>
-              <span className="font-medium">Assigned To:</span>{" "}
-              {assignedTo && Array.isArray(assignedTo)
-                ? assignedTo.join(", ")
-                : assignedTo}
+              <span className="font-medium">Author:</span>{" "}
+              {typeof author === "string" ? author : author?.name || "Unknown"}
             </div>
           </div>
         </div>

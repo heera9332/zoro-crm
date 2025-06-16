@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useAppStore } from "@/store/appStore";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Loader from "../_components/loader";
 import {
   Pagination,
@@ -51,7 +51,7 @@ function Page() {
 
   return (
     <div className="app-page px-2 pb-8">
-      <h1>Projects</h1>
+      <h1 className="mb-4">Projects</h1>
       {/* Pass the query param as the initial value */}
       <ProjectSearch onSearch={handleSearch} loading={loadingProjects} initialValue={q} />
       {loadingProjects && (
@@ -155,4 +155,10 @@ function Page() {
   );
 }
 
-export default Page;
+export default function PageMain() {
+  return (
+    <Suspense fallback={<Loader/>}>
+      <Page/>
+    </Suspense>
+  )
+}

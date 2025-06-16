@@ -81,7 +81,7 @@ export interface Config {
     messages: Message;
     workspaces: Workspace;
     events: Event;
-    Todos: Todo;
+    todos: Todo;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -104,7 +104,7 @@ export interface Config {
     messages: MessagesSelect<false> | MessagesSelect<true>;
     workspaces: WorkspacesSelect<false> | WorkspacesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
-    Todos: TodosSelect<false> | TodosSelect<true>;
+    todos: TodosSelect<false> | TodosSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -309,6 +309,7 @@ export interface Post {
 export interface Note {
   id: string;
   title: string;
+  featuredImage?: (string | null) | Media;
   author?: (string | null) | User;
   content: {
     root: {
@@ -546,7 +547,7 @@ export interface Event {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Todos".
+ * via the `definition` "todos".
  */
 export interface Todo {
   id: string;
@@ -828,7 +829,7 @@ export interface PayloadLockedDocument {
         value: string | Event;
       } | null)
     | ({
-        relationTo: 'Todos';
+        relationTo: 'todos';
         value: string | Todo;
       } | null)
     | ({
@@ -967,6 +968,7 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface NotesSelect<T extends boolean = true> {
   title?: T;
+  featuredImage?: T;
   author?: T;
   content?: T;
   Category?: T;
@@ -1110,7 +1112,7 @@ export interface EventsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Todos_select".
+ * via the `definition` "todos_select".
  */
 export interface TodosSelect<T extends boolean = true> {
   title?: T;

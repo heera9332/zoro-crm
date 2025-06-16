@@ -32,9 +32,9 @@ const actions = [
 function Page() {
   return (
     <div className="app-page px-2">
-      <h1>App Dashboard</h1>
+      <h1 className="mb-4">App Dashboard</h1>
 
-      <div className="tasks mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="dashboard grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {actions.map((action) => (
           <div
             key={action.title}

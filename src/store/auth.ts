@@ -16,7 +16,7 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
 
-  login: (params: { email: string; password: string; username?: string }) => Promise<boolean>;
+  login: (params: { username: string, password: string }) => Promise<boolean>;
   register: (params: { email: string; password: string; username: string; name?: string }) => Promise<boolean>;
   logout: () => void;
 }
@@ -29,10 +29,10 @@ export const useAuthStore = create<AuthState>()(
       loading: false,
       error: null,
 
-      login: async ({ email, password, username }) => {
+      login: async ({ username, password }) => {
         set({ loading: true, error: null });
         try {
-          const { data } = await axios.post("/api/users/login", { email, password, username });
+          const { data } = await axios.post("/api/users/login", { username, password });
           if (!data.token) {
             set({ error: data.errors?.[0]?.message || data.message || "Login failed", loading: false });
             return false;

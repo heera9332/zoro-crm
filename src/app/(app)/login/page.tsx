@@ -46,10 +46,10 @@ function AuthForm() {
     const name = (formData.get("name") as string) || username;
 
     if (action === "login") {
-      await login({ email, password, username });
+      await login({ username, password });
       // success and error handled by zustand state/effect above
     } else {
-      const ok = await register({ email, password, username, name });
+      const ok = await register({ email, username, name, password });
       if (ok) {
         setSuccess("Registration successful! You can now log in.");
         setTimeout(() => {
@@ -105,23 +105,7 @@ function AuthForm() {
                   placeholder="johnny"
                   required
                 />
-              </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="john@example.com"
-                  required
-                />
-              </div>
+              </div> 
               <div>
                 <label
                   htmlFor="password"
