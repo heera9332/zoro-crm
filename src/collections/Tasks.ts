@@ -69,4 +69,8 @@ export const Tasks: CollectionConfig = {
     },
   ],
   timestamps: true,
+  versions: {
+    drafts: true,
+    maxPerDoc: 20,
+  }
 };

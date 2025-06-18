@@ -140,5 +140,9 @@ export const Notes: CollectionConfig = {
       },
     ],
   },
+  versions: {
+    drafts: true,
+    maxPerDoc: 20,
+  },
   timestamps: true,
 };
