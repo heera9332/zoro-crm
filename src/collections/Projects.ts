@@ -131,9 +131,5 @@ export const Projects: CollectionConfig = {
         description: "View all logged timeline events",
       },
     },
-  ],
-  versions: {
-    drafts: true,
-    maxPerDoc: 20,
-  }
+  ], 
 };
