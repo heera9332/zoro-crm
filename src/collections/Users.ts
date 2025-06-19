@@ -36,6 +36,9 @@ export const Users: CollectionConfig = {
         read: ({ req }) => req.user?.roles.includes("admin") ?? false,
         update: ({ req }) => req.user?.roles.includes("admin") ?? false,
       },
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "firstName",
@@ -52,6 +55,9 @@ export const Users: CollectionConfig = {
       type: "relationship",
       relationTo: "workspaces",
       hasMany: true,
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "avatar",
@@ -73,12 +79,18 @@ export const Users: CollectionConfig = {
       name: "position",
       type: "text",
       label: "Position / Job Title",
+       admin: {
+        position: "sidebar"
+      }
     },
     {
       name: "isActive",
       type: "checkbox",
       label: "Active Account",
       defaultValue: true,
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "bio",

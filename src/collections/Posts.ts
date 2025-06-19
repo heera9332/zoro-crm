@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 
 export const Posts: CollectionConfig = {
   slug: "posts",
+
   admin: {
     useAsTitle: "title",
   },
@@ -67,4 +68,8 @@ export const Posts: CollectionConfig = {
       },
     },
   ],
+  versions: {
+    maxPerDoc: 50,
+    drafts: true,
+  },
 };

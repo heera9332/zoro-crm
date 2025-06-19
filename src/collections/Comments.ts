@@ -9,7 +9,7 @@ export const Comments: CollectionConfig = {
     delete: ({ req: { user } }) => !!user,
   },
   admin: {
-    useAsTitle: "title"
+    useAsTitle: "title",
   },
   fields: [
     {
@@ -31,13 +31,17 @@ export const Comments: CollectionConfig = {
       required: true,
       admin: {
         readOnly: true,
+        position: "sidebar"
       },
     },
     {
       name: "commentedOn",
       type: "relationship",
-      relationTo: ["projects", "tasks", "notes"],
+      relationTo: ["projects", "tasks", "notes", "posts"],
       required: true,
+      admin: {
+        position: "sidebar"
+      }
     },
     {
       name: "comments",
@@ -49,38 +53,6 @@ export const Comments: CollectionConfig = {
         position: "sidebar",
       },
     },
-    {
-      name: "anchor",
-      type: "group",
-      fields: [
-        {
-          name: "startIndex",
-          type: "number",
-          required: true,
-        },
-        {
-          name: "endIndex",
-          type: "number",
-          required: true,
-        }
-      ],
-      label: "Text Anchor",
-      admin: {
-        description: "Position of text this comment is attached to",
-      }
-    },
-    
   ],
-
   timestamps: true,
-  hooks: {
-    beforeChange: [
-      ({ req, data, operation }) => {
-        if (operation === "create" && req.user) {
-          data.author = req.user.id;
-        }
-        return data;
-      },
-    ],
-  },
 };

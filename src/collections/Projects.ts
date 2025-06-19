@@ -33,24 +33,15 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
+      name: "author",
+      type: "relationship",
+      label: "Author",
+      relationTo: "users",
+    },
+    {
       name: "description",
       type: "richText",
       label: "Description",
-    },
-    {
-      name: "tasks",
-      type: "relationship",
-      relationTo: "tasks", // Linking tasks collection here
-      label: "Tasks",
-      hasMany: true, // Multiple tasks can be linked to one project
-      admin: {
-        isSortable: true,
-      },
-    },
-    {
-      name: "dueDate",
-      type: "date",
-      label: "Due Date",
     },
     {
       label: "Featured Image",
@@ -71,6 +62,9 @@ export const Projects: CollectionConfig = {
         { label: "High", value: "high" },
       ],
       defaultValue: "medium",
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "status",
@@ -81,6 +75,7 @@ export const Projects: CollectionConfig = {
         { label: "In Progress", value: "in-progress" },
         { label: "Completed", value: "completed" },
         { label: "Cancelled", value: "cancelled" },
+        { label: "In Review", value: "in-review" },
       ],
       defaultValue: "not-started",
       admin: {
@@ -95,8 +90,43 @@ export const Projects: CollectionConfig = {
       hasMany: true,
       admin: {
         allowCreate: false,
+        position: "sidebar",
       },
     },
+    {
+      name: "tasks",
+      type: "relationship",
+      relationTo: "tasks",
+      label: "Tasks",
+      hasMany: true,
+      admin: {
+        isSortable: true,
+        position: "sidebar",
+      },
+    },
+    {
+      name: "startDate",
+      type: "date",
+      label: "Start Date",
+      admin: {
+        position: "sidebar",
+        date: {
+          pickerAppearance: "dayAndTime",
+        },
+      },
+    },
+    {
+      name: "dueDate",
+      type: "date",
+      label: "Due Date",
+      admin: {
+        position: "sidebar",
+        date: {
+          pickerAppearance: "dayAndTime",
+        },
+      },
+    },
+
     {
       name: "notes",
       type: "relationship",
@@ -131,5 +161,25 @@ export const Projects: CollectionConfig = {
         description: "View all logged timeline events",
       },
     },
-  ], 
+    {
+      label: "Eastimated Time (in hours)",
+      name: "eastimatedTime",
+      type: "number",
+      admin: {
+        position: "sidebar",
+        description: "Project to be completed in time period",
+      },
+    },
+    {
+      label: "Total time (in hours)",
+      name: "totalTime",
+      type: "number",
+      admin: {
+        position: "sidebar",
+        description:
+          "Total time in project completion. (invested time in this project)",
+        readOnly: true,
+      },
+    },
+  ],
 };

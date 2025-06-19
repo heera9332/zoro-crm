@@ -301,6 +301,7 @@ export interface Post {
   featuredImage?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -346,6 +347,7 @@ export interface Note {
 export interface Project {
   id: string;
   title: string;
+  author?: (string | null) | User;
   description?: {
     root: {
       type: string;
@@ -361,12 +363,13 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
-  tasks?: (string | Task)[] | null;
-  dueDate?: string | null;
   featuredImage?: (string | null) | Media;
   priority?: ('low' | 'medium' | 'high') | null;
-  status?: ('not-started' | 'in-progress' | 'completed' | 'cancelled') | null;
+  status?: ('not-started' | 'in-progress' | 'completed' | 'cancelled' | 'in-review') | null;
   assignedTo?: (string | User)[] | null;
+  tasks?: (string | Task)[] | null;
+  startDate?: string | null;
+  dueDate?: string | null;
   notes?: (string | Note)[] | null;
   /**
    * Upload files related to the project.
@@ -376,6 +379,14 @@ export interface Project {
    * View all logged timeline events
    */
   timeline?: (string | Timeline)[] | null;
+  /**
+   * Project to be completed in time period
+   */
+  eastimatedTime?: number | null;
+  /**
+   * Total time in project completion. (invested time in this project)
+   */
+  totalTime?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -401,26 +412,20 @@ export interface Task {
     };
     [k: string]: unknown;
   } | null;
-  dueDate?: string | null;
+  comments?: (string | null) | Comment;
   status?: ('to-do' | 'in-progress' | 'completed') | null;
   assignedTo?: (string | User)[] | null;
   project?: (string | null) | Project;
   priority?: ('low' | 'medium' | 'high') | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "timeline".
- */
-export interface Timeline {
-  id: string;
-  project: string | Project;
-  task: string | Task;
-  action: string;
-  performedBy?: (string | null) | User;
-  timestamp?: string | null;
-  details?: string | null;
+  /**
+   * Enter the total time taken (in hours).
+   */
+  timeTaken?: number | null;
+  /**
+   * time given to task, complete within given time
+   */
+  estimatedTime?: number | null;
+  dueDate?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -445,15 +450,27 @@ export interface Comment {
     | {
         relationTo: 'notes';
         value: string | Note;
+      }
+    | {
+        relationTo: 'posts';
+        value: string | Post;
       };
   comments?: (string | Comment)[] | null;
-  /**
-   * Position of text this comment is attached to
-   */
-  anchor: {
-    startIndex: number;
-    endIndex: number;
-  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "timeline".
+ */
+export interface Timeline {
+  id: string;
+  project: string | Project;
+  task: string | Task;
+  action: string;
+  performedBy?: (string | null) | User;
+  timestamp?: string | null;
+  details?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -961,6 +978,7 @@ export interface PostsSelect<T extends boolean = true> {
   featuredImage?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -987,16 +1005,20 @@ export interface NotesSelect<T extends boolean = true> {
  */
 export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
+  author?: T;
   description?: T;
-  tasks?: T;
-  dueDate?: T;
   featuredImage?: T;
   priority?: T;
   status?: T;
   assignedTo?: T;
+  tasks?: T;
+  startDate?: T;
+  dueDate?: T;
   notes?: T;
   attachments?: T;
   timeline?: T;
+  eastimatedTime?: T;
+  totalTime?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1007,11 +1029,14 @@ export interface ProjectsSelect<T extends boolean = true> {
 export interface TasksSelect<T extends boolean = true> {
   title?: T;
   content?: T;
-  dueDate?: T;
+  comments?: T;
   status?: T;
   assignedTo?: T;
   project?: T;
   priority?: T;
+  timeTaken?: T;
+  estimatedTime?: T;
+  dueDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1039,12 +1064,6 @@ export interface CommentsSelect<T extends boolean = true> {
   author?: T;
   commentedOn?: T;
   comments?: T;
-  anchor?:
-    | T
-    | {
-        startIndex?: T;
-        endIndex?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }

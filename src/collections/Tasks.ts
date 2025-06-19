@@ -7,7 +7,7 @@ export const Tasks: CollectionConfig = {
     plural: "Tasks",
   },
   admin: {
-    useAsTitle: "title"
+    useAsTitle: "title",
   },
   fields: [
     {
@@ -19,12 +19,12 @@ export const Tasks: CollectionConfig = {
     {
       name: "content",
       type: "richText",
-      label: "Task Description", 
-    },
-    {
-      name: "dueDate",
-      type: "date",
-      label: "Due Date",
+      label: "Task Description",
+    },{
+      name: "comments",
+      type: "relationship",
+      relationTo: "comments",
+      label: "Comments",
     },
     {
       name: "status",
@@ -36,6 +36,9 @@ export const Tasks: CollectionConfig = {
         { label: "Completed", value: "completed" },
       ],
       defaultValue: "to-do",
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "assignedTo",
@@ -43,7 +46,11 @@ export const Tasks: CollectionConfig = {
       relationTo: "users",
       label: "Assigned To",
       hasMany: true,
+      admin: {
+        position: "sidebar",
+      },
     },
+
     {
       name: "project",
       type: "relationship",
@@ -53,7 +60,7 @@ export const Tasks: CollectionConfig = {
         position: "sidebar",
       },
     },
-     {
+    {
       name: "priority",
       type: "select",
       label: "Priority",
@@ -64,8 +71,40 @@ export const Tasks: CollectionConfig = {
       ],
       defaultValue: "medium",
       admin: {
-        position: "sidebar"
-      }
+        position: "sidebar",
+      },
+    },
+    {
+      name: "timeTaken",
+      label: "Time Taken (in hours)",
+      type: "number",
+      min: 0,
+      admin: {
+        description: "Enter the total time taken (in hours).",
+        position: "sidebar",
+      },
+    },{
+      name: "estimatedTime",
+      label: "Estimated time (in hours)",
+      type: "number",
+      min: 0,
+      admin: {
+        description: "time given to task, complete within given time",
+        position: "sidebar",
+      },
+    },
+    {
+      name: "dueDate",
+      type: "date",
+      label: "Due Date",
+      admin: {
+        position: "sidebar",
+        custom: {
+          date: {
+            pickerAppearance: "dayAndTime",
+          },
+        },
+      },
     },
   ],
   timestamps: true,

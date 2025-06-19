@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "next build && tsc --project tsconfig.server.json",
+    "build-start": "next build && tsc --project tsconfig.server.json && bun run start",
     "dev": "nodemon",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
