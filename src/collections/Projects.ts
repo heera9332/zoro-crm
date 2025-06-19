@@ -17,7 +17,12 @@ export const Projects: CollectionConfig = {
       );
     },
     read: () => true,
-    update: () => true,
+    update: ({ req, data }) => {
+      const user = req.user;
+      const assignedTo = data?.assignedTo;
+      const userBelongs = assignedTo?.contains(user?.id);
+      return req.user?.roles.some((role) => role === "admin") || userBelongs;
+    },
     delete: ({ req }) => {
       return (
         req.user?.roles.some((role) => role == "admin" || role == "manager") ??
