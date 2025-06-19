@@ -28,7 +28,6 @@ export const Posts: CollectionConfig = {
       name: "content",
       type: "richText",
       label: "Post Content",
-      required: true,
       admin: {
         style: {
           minHeight: "400px",
