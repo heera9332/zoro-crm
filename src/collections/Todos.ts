@@ -10,10 +10,10 @@ export const Todos: CollectionConfig = {
     read: () => true,
     create: () => true,
     update: () => true,
-    delete: () => true
+    delete: () => true,
   },
   admin: {
-    useAsTitle: "title"
+    useAsTitle: "title",
   },
   fields: [
     {
@@ -25,29 +25,42 @@ export const Todos: CollectionConfig = {
     {
       name: "content",
       type: "richText",
-      label: "Task Description", 
-    },
-    {
-      name: "dueDate",
-      type: "date",
-      label: "Due Date",
+      label: "Task Description",
     },
     {
       name: "status",
       type: "select",
-      label: "Task Status",
+      label: "Todo Status",
       options: [
         { label: "To Do", value: "to-do" },
         { label: "In Progress", value: "in-progress" },
         { label: "Completed", value: "completed" },
       ],
       defaultValue: "to-do",
+      admin: {
+        position: "sidebar",
+      },
     },
+    {
+      name: "dueDate",
+      type: "date",
+      label: "Due Date",
+      admin: {
+        position: "sidebar",
+        date: {
+          pickerAppearance: "dayAndTime",
+        },
+      },
+    },
+
     {
       name: "author",
       type: "relationship",
       relationTo: "users",
       label: "Author",
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "project",

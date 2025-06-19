@@ -584,8 +584,8 @@ export interface Todo {
     };
     [k: string]: unknown;
   } | null;
-  dueDate?: string | null;
   status?: ('to-do' | 'in-progress' | 'completed') | null;
+  dueDate?: string | null;
   author?: (string | null) | User;
   project?: (string | null) | Project;
   updatedAt: string;
@@ -1136,8 +1136,8 @@ export interface EventsSelect<T extends boolean = true> {
 export interface TodosSelect<T extends boolean = true> {
   title?: T;
   content?: T;
-  dueDate?: T;
   status?: T;
+  dueDate?: T;
   author?: T;
   project?: T;
   updatedAt?: T;
