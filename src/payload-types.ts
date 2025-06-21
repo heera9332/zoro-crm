@@ -114,8 +114,12 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'email-templates': EmailTemplate;
+  };
+  globalsSelect: {
+    'email-templates': EmailTemplatesSelect<false> | EmailTemplatesSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -281,7 +285,7 @@ export interface Post {
   id: string;
   title: string;
   slug: string;
-  content: {
+  content?: {
     root: {
       type: string;
       children: {
@@ -295,7 +299,7 @@ export interface Post {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   author?: (string | null) | User;
   status?: ('draft' | 'published' | 'archived') | null;
   featuredImage?: (string | null) | Media;
@@ -1323,6 +1327,65 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-templates".
+ */
+export interface EmailTemplate {
+  id: string;
+  userSignup: {
+    subject: string;
+    /**
+     * Available variables:
+     * - `{{name}}`: User's full name
+     * - `{{email}}`: User's email address
+     * - `{{username}}`: User's username
+     * - `{{verificationLink}}`: Email verification link
+     *
+     * You can use these variables anywhere in the subject or body.
+     * Example: "Welcome, {{name}}! Please verify your email: {{verificationLink}}"
+     */
+    body: string;
+  };
+  projectCreated: {
+    subject: string;
+    /**
+     * Available variables:
+     * - `{{name}}`: Recipient's name
+     * - `{{email}}`: Recipient's email
+     * - `{{projectTitle}}`: Project title
+     * - `{{projectDescription}}`: Project description
+     * - `{{projectDueDate}}`: Project due date
+     *
+     * You can use these variables anywhere in the subject or body.
+     * Example: "Project '{{projectTitle}}' has been created and is due on {{projectDueDate}}."
+     */
+    body: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-templates_select".
+ */
+export interface EmailTemplatesSelect<T extends boolean = true> {
+  userSignup?:
+    | T
+    | {
+        subject?: T;
+        body?: T;
+      };
+  projectCreated?:
+    | T
+    | {
+        subject?: T;
+        body?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
