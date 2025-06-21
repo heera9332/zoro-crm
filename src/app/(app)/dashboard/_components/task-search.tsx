@@ -5,12 +5,11 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 type Props = {
-  onSearch: (query: string) => void;
   loading?: boolean;
   initialValue?: string;
 };
 
-export function TaskSearch({ onSearch, loading, initialValue = "" }: Props) {
+export function TaskSearch({ loading, initialValue = "" }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [value, setValue] = useState(initialValue);
@@ -19,24 +18,19 @@ export function TaskSearch({ onSearch, loading, initialValue = "" }: Props) {
   useEffect(() => {
     const query = searchParams.get("q") || "";
     setValue(query);
-    // Optionally, trigger onSearch when URL param changes (for deep linking)
-    onSearch(query);
   }, [searchParams]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Create a NEW URLSearchParams object!
     const params = new URLSearchParams(Array.from(searchParams.entries()));
     if (value.trim()) {
       params.set("q", value.trim());
     } else {
       params.delete("q");
     }
-    // Set page=1 when new search (optional)
     params.delete("page");
-    // Use router.replace to update URL
     router.replace(`?${params.toString()}`, { scroll: false });
-    onSearch(value.trim());
+    // No need to call onSearch here; let parent/page handle via URL change!
   }
 
   function handleClear() {
@@ -45,7 +39,6 @@ export function TaskSearch({ onSearch, loading, initialValue = "" }: Props) {
     params.delete("q");
     params.delete("page");
     router.replace(`?${params.toString()}`, { scroll: false });
-    onSearch("");
   }
 
   return (

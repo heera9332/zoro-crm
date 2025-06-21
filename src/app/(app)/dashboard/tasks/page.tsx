@@ -4,7 +4,7 @@ import React, { Suspense, useEffect } from "react";
 import Loader from "../_components/loader";
 import { useSearchParams } from "next/navigation";
 import { useTasks } from "@/hooks/use-tasks";
-import { TaskSearch } from "../_components/task-search"; // <-- You need to create this (same as ProjectSearch)
+import { TaskSearch } from "../_components/task-search";
 import {
   Pagination,
   PaginationContent,

@@ -17,13 +17,14 @@ function AuthForm() {
     register,
     forgotPassword,
     resetPassword,
+    logout,
     loading,
     error,
     user,
   } = useAuthStore();
 
   const [action, setAction] = useState<
-    "login" | "register" | "forgot-password" | "reset-password"
+    "login" | "register" | "forgot-password" | "reset-password" | "logout"
   >("login");
   const [success, setSuccess] = useState<string>("");
   const [email, setEmail] = useState("");
@@ -46,7 +47,13 @@ function AuthForm() {
 
   // Redirect on login
   useEffect(() => {
-    if (user && action === "login") {
+    if (action === "logout") {
+      logout();
+      setSuccess("You have been logged out.");
+      setTimeout(() => {
+        router.replace("?action=login");
+      }, 1000);
+    } else if (user && action === "login") {
       setSuccess("Login successful!");
       setTimeout(() => {
         if (redirectTo) {
@@ -56,7 +63,7 @@ function AuthForm() {
         }
       }, 1000);
     }
-  }, [user, action, router, redirectTo]);
+  }, [user, action, router, redirectTo, logout]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
