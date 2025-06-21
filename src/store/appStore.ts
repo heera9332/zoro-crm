@@ -7,9 +7,10 @@ import {
   TaskSlice,
   createNotesSlice,
   NotesSlice,
+  createTodosSlice, TodosSlice
 } from "@/store/slices/index";
 
-type AppState = ProjectSlice & TaskSlice & NotesSlice;
+type AppState = ProjectSlice & TaskSlice & NotesSlice & TodosSlice;
 
 export const useAppStore = create<AppState>()(
   persist(
@@ -17,6 +18,7 @@ export const useAppStore = create<AppState>()(
       ...createProjectSlice(...a),
       ...createTaskSlice(...a),
       ...createNotesSlice(...a),
+      ...createTodosSlice(...a),
     }),
     { name: "zoro-crm-storage" }
   )

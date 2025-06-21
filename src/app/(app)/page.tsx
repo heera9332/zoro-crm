@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Zap,
   Menu,
@@ -202,7 +202,7 @@ export default function HomePage() {
               >
                 Contact
               </Link>
-              <Link href={"/login"} className="btn btn-secondary">
+              <Link href={"/auth"} className="btn btn-secondary">
                 Login
               </Link>
               <button className="btn btn-primary">Get Started</button>
@@ -256,8 +256,15 @@ export default function HomePage() {
                 Contact
               </a>
               <div className="flex flex-col space-y-2 pt-2">
-                <button className="btn btn-secondary">Login</button>
-                <button className="btn btn-primary">Get Started</button>
+                <Link
+                  href="#contact"
+                  className="text-gray-700 hover:text-orange-500 transition-colors"
+                >
+                  Contact
+                </Link>
+                <Link href={"/auth"} className="btn btn-secondary">
+                  Login
+                </Link>
               </div>
             </div>
           )}
