@@ -3,7 +3,6 @@ import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
-import express from "express";
 import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
 
@@ -22,14 +21,16 @@ import { Chats } from "./collections/Chats";
 import { Messages } from "./collections/Messages";
 import { Events } from "./collections/Events";
 import { Todos } from "./collections/Todos";
+import EmailTemplates from "@/global/templates/email";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+  globals: [EmailTemplates],
   email: nodemailerAdapter({
-    defaultFromAddress: "info@payloadcms.com",
-    defaultFromName: "Payload",
+    defaultFromAddress: process.env.SMTP_FROM!,
+    defaultFromName: process.env.APP_NAME!,
     // Nodemailer transportOptions
     transportOptions: {
       host: process.env.SMTP_HOST,
@@ -64,7 +65,6 @@ export default buildConfig({
     Workspaces,
     Events,
     Todos,
-   
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
@@ -74,5 +74,22 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || "",
   }),
-  plugins: [formBuilderPlugin({})],
+  plugins: [
+    formBuilderPlugin({
+      fields: {
+        text: true,
+        textarea: true,
+        select: true,
+        email: true,
+        state: true,
+        country: true,
+        checkbox: true,
+        number: true,
+        message: true,
+        date: false,
+        payment: false,
+      },
+    }),
+  ],
+  // endpoints: [sendTestEmail],
 });

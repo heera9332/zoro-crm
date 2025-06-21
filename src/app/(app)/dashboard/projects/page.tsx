@@ -1,9 +1,11 @@
 "use client";
-import Link from "next/link";
-import { useAppStore } from "@/store/appStore";
+import Link from "next/link"; 
 import Image from "next/image";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect } from "react";
 import Loader from "../_components/loader";
+import { ProjectSearch } from "../_components/project-search";
+import { useSearchParams } from "next/navigation";
+import { useProjects } from "@/hooks/use-projects";
 import {
   Pagination,
   PaginationContent,
@@ -12,21 +14,16 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { ProjectSearch } from "../_components/project-search";
-import { useSearchParams } from "next/navigation";
 
 function Page() {
-  const projects = useAppStore((s) => s.projects);
-  const loadProjects = useAppStore((s) => s.loadProjects);
-  const loadingProjects = useAppStore((s) => s.loadingProjects);
-  const projectsPagination = useAppStore((s) => s.projectsPagination);
+  const { projects, loadProjects, loadingProjects, projectsPagination} = useProjects();
   const searchParams = useSearchParams();
 
   // Get the current query and page from URL
   const q = searchParams.get("q") || "";
   const pageParam = searchParams.get("page");
   const page = pageParam ? Number(pageParam) : 1;
-  const limit = 10;
+  const limit = 12;
 
   // Always load projects when q or page changes!
   useEffect(() => {

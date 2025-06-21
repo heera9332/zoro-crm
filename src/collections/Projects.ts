@@ -18,10 +18,12 @@ export const Projects: CollectionConfig = {
     },
     read: () => true,
     update: ({ req, data }) => {
-      const user = req.user;
-      const assignedTo = data?.assignedTo;
-      const userBelongs = assignedTo?.contains(user?.id);
-      return req.user?.roles.some((role) => role === "admin") || userBelongs;
+      // const user = req.user;
+      // const assignedTo = data?.assignedTo;
+      // const userBelongs = assignedTo?.contains(user?.id);
+      // return req.user?.roles.some((role) => role === "admin") || userBelongs;
+
+      return true;
     },
     delete: ({ req }) => {
       return (

@@ -10,7 +10,7 @@ type Props = {
   initialValue?: string;
 };
 
-export function ProjectSearch({ onSearch, loading, initialValue = "" }: Props) {
+export function TaskSearch({ onSearch, loading, initialValue = "" }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [value, setValue] = useState(initialValue);
@@ -51,7 +51,7 @@ export function ProjectSearch({ onSearch, loading, initialValue = "" }: Props) {
   return (
     <form onSubmit={handleSubmit} className="flex gap-2 mb-6 max-w-md">
       <Input
-        placeholder="Search projects…"
+        placeholder="Search tasks..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={loading}
