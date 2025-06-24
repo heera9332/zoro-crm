@@ -189,4 +189,20 @@ export const Projects: CollectionConfig = {
       },
     },
   ],
+
+  hooks: {
+    afterChange: [
+      async ({ doc, req, operation }) => {
+        if (operation === "create") {
+          await req.payload.create({
+            collection: "notifications",
+            data: {
+              title: "New Project Created",
+              content: `Project "<a href="${process.env.APP_URL}/dashboard/projects/${doc.id}">${doc.title}</a>" was created.`,
+            },
+          });
+        }
+      },
+    ],
+  },
 };

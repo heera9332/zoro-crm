@@ -82,6 +82,7 @@ export interface Config {
     workspaces: Workspace;
     events: Event;
     todos: Todo;
+    notifications: Notification;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -105,6 +106,7 @@ export interface Config {
     workspaces: WorkspacesSelect<false> | WorkspacesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     todos: TodosSelect<false> | TodosSelect<true>;
+    notifications: NotificationsSelect<false> | NotificationsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -622,6 +624,53 @@ export interface Todo {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications".
+ */
+export interface Notification {
+  id: string;
+  title: string;
+  content: string;
+  statusRead?: ('read' | 'unread' | 'draft') | null;
+  readBy?: (string | User)[] | null;
+  recipients?: (string | User)[] | null;
+  relatedTo?:
+    | ({
+        relationTo: 'events';
+        value: string | Event;
+      } | null)
+    | ({
+        relationTo: 'tasks';
+        value: string | Task;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'chats';
+        value: string | Chat;
+      } | null)
+    | ({
+        relationTo: 'comments';
+        value: string | Comment;
+      } | null)
+    | ({
+        relationTo: 'messages';
+        value: string | Message;
+      } | null)
+    | ({
+        relationTo: 'notes';
+        value: string | Note;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null);
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
 export interface Form {
@@ -877,6 +926,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'todos';
         value: string | Todo;
+      } | null)
+    | ({
+        relationTo: 'notifications';
+        value: string | Notification;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1198,6 +1251,20 @@ export interface TodosSelect<T extends boolean = true> {
   dueDate?: T;
   author?: T;
   project?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications_select".
+ */
+export interface NotificationsSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  statusRead?: T;
+  readBy?: T;
+  recipients?: T;
+  relatedTo?: T;
   updatedAt?: T;
   createdAt?: T;
 }

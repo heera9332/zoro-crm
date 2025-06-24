@@ -21,6 +21,7 @@ import { Chats } from "./collections/Chats";
 import { Messages } from "./collections/Messages";
 import { Events } from "./collections/Events";
 import { Todos } from "./collections/Todos";
+import { Notification } from "./collections/Notification";
 import EmailTemplates from "@/global/templates/email";
 
 const filename = fileURLToPath(import.meta.url);
@@ -65,6 +66,7 @@ export default buildConfig({
     Workspaces,
     Events,
     Todos,
+    Notification
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
