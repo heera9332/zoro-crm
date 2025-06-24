@@ -1,0 +1,14 @@
+.ubuntu-spinner {
+  display: inline-block;
+  border: 3px solid rgba(255,255,255,0.15); /* light border */
+  border-top: 3px solid #fff; /* visible color */
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: ubuntu-spin 0.85s linear infinite;
+}
+
+@keyframes ubuntu-spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}

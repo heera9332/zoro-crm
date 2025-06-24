@@ -44,3 +44,4 @@ dist
 build
 
 **/*.mp4
+*.sh

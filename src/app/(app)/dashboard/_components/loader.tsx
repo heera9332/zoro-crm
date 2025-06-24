@@ -1,14 +1,14 @@
+import "./loaders/loader.css";
+
 const Loader = () => {
   return (
-    <div>
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        src="/assets/video/loader.mp4"
-        style={{ width: "100px", height: "100px", objectFit: "cover" }} // example style
-      />
+    <div className="w-32 h-32 flex items-center justify-center">
+      <div className="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   );
 };
