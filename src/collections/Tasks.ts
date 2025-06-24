@@ -27,6 +27,16 @@ export const Tasks: CollectionConfig = {
       label: "Comments",
     },
     {
+      name: "author",
+      type: "relationship",
+      relationTo: "users",
+      label: "Author",
+      hasMany: true,
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
       name: "status",
       type: "select",
       label: "Task Status",

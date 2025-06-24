@@ -180,6 +180,30 @@ export interface User {
    * about yourself
    */
   bio?: string | null;
+  billing?: {
+    first_name?: string | null;
+    last_name?: string | null;
+    company?: string | null;
+    address_1?: string | null;
+    address_2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postcode?: string | null;
+    country?: string | null;
+    email?: string | null;
+    phone?: string | null;
+  };
+  shipping?: {
+    first_name?: string | null;
+    last_name?: string | null;
+    company?: string | null;
+    address_1?: string | null;
+    address_2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postcode?: string | null;
+    country?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
   email?: string | null;
@@ -417,6 +441,7 @@ export interface Task {
     [k: string]: unknown;
   } | null;
   comments?: (string | null) | Comment;
+  author?: (string | User)[] | null;
   status?: ('to-do' | 'in-progress' | 'completed') | null;
   assignedTo?: (string | User)[] | null;
   project?: (string | null) | Project;
@@ -917,6 +942,34 @@ export interface UsersSelect<T extends boolean = true> {
   position?: T;
   isActive?: T;
   bio?: T;
+  billing?:
+    | T
+    | {
+        first_name?: T;
+        last_name?: T;
+        company?: T;
+        address_1?: T;
+        address_2?: T;
+        city?: T;
+        state?: T;
+        postcode?: T;
+        country?: T;
+        email?: T;
+        phone?: T;
+      };
+  shipping?:
+    | T
+    | {
+        first_name?: T;
+        last_name?: T;
+        company?: T;
+        address_1?: T;
+        address_2?: T;
+        city?: T;
+        state?: T;
+        postcode?: T;
+        country?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -1034,6 +1087,7 @@ export interface TasksSelect<T extends boolean = true> {
   title?: T;
   content?: T;
   comments?: T;
+  author?: T;
   status?: T;
   assignedTo?: T;
   project?: T;

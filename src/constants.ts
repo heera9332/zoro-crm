@@ -1,4 +1,5 @@
+const API_ENDPOINT =
+  typeof window !== "undefined" ? window.location.origin : process.env.APP_URL;
+const LOCAL_STORAGE_AI_NOTE_TOKEN_KEY = "zoro-crm-storage-key";
 
-
-export const API_ENDPOINT = "http://localhost:3000";
-export const LOCAL_STORAGE_AI_NOTE_TOKEN_KEY = "aiojfan940nfbnasd"
+export { API_ENDPOINT, LOCAL_STORAGE_AI_NOTE_TOKEN_KEY };
