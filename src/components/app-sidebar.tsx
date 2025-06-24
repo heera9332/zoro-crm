@@ -27,8 +27,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Switch } from "@/components/ui/switch";
-import Link from "next/link";
+import Link from "next/link"; 
+import { useAuthStore } from "@/store/auth";
 
 // Sample data
 const data = {
@@ -84,6 +84,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [activeMailSubject, setActiveMailSubject] = React.useState("");
   const [mails, setMails] = React.useState(data.navSubMenu);
   const { setOpen } = useSidebar();
+  const { user  } = useAuthStore();
 
   return (
     <Sidebar
@@ -91,7 +92,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       className="overflow-hidden *:data-[sidebar=sidebar]:flex-row"
       {...props}
     >
-      {/* First sidebar: icons only */}
       <Sidebar
         collapsible="none"
         className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r"
@@ -141,7 +141,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
-          <NavUser user={data.user} />
+          <NavUser user={user} />
         </SidebarFooter>
       </Sidebar>
 
