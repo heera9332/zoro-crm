@@ -87,7 +87,7 @@ export default function Page({ params }: { params: { id: string } }) {
             </div>
             <div>
               <span className="font-medium">Author:</span>{" "}
-              {typeof author === "string" ? author : author?.name || "Unknown"}
+              {typeof author === "string" ? author : author?.firstName || "Unknown"}
             </div>
           </div>
         </div>

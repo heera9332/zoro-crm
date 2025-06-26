@@ -11,10 +11,10 @@ type UserType = {
 
 export function UserAvatar({ user }: { user: UserType }) {
   let avatarUrl = "";
-  if (user.avatar && typeof user.avatar === "object" && "url" in user.avatar) {
-    avatarUrl = user.avatar.url || "";
-  } else if (typeof user.avatar === "string" && user.avatar.length > 10) {
-    avatarUrl = `/api/media/file/${user.avatar}`;
+  if (user?.avatar && typeof user?.avatar === "object" && "url" in user?.avatar) {
+    avatarUrl = user?.avatar.url || "";
+  } else if (typeof user?.avatar === "string" && user?.avatar.length > 10) {
+    avatarUrl = `/api/media/file/${user?.avatar}`;
   }
 
   // Initials fallback
@@ -22,7 +22,7 @@ export function UserAvatar({ user }: { user: UserType }) {
     (user.firstName?.[0] || "") +
     (user.lastName?.[0] || user.username?.[0] || "");
   const displayName =
-    [user.firstName, user.lastName].filter(Boolean).join(" ") ||
+    [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
     user.username ||
     "";
 

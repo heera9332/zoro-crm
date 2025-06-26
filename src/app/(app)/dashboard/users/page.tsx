@@ -89,13 +89,13 @@ function UsersPage() {
         <div className="users mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 transition-all delay-200">
           {users.map((user) => {
             const imgUrl =
-              typeof user.avatar === "object" && user.avatar?.url
-                ? user.avatar.url
+              typeof user?.avatar === "object" && user?.avatar?.url
+                ? user?.avatar?.url
                 : "/api/media/file/4.png";
             const imgAlt =
-              typeof user.avatar === "object" && user.avatar?.alt
-                ? user.avatar.alt
-                : user.username || "user";
+              typeof user.avatar === "object" && user?.avatar?.alt
+                ? user?.avatar.alt
+                : user?.username || "user";
             return (
               <div
                 key={user.id}
@@ -112,8 +112,8 @@ function UsersPage() {
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-1 text-center line-clamp-1">
                   <Link href={`/dashboard/users/${user.id}`}>
-                    {user.firstName || user.lastName
-                      ? `${user.firstName || ""} ${user.lastName || ""}`.trim()
+                    {user?.firstName || user.lastName
+                      ? `${user?.firstName || ""} ${user.lastName || ""}`.trim()
                       : user.username}
                   </Link>
                 </h3>
