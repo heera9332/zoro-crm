@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { NavUser } from "@/components/nav-user";
 import { Label } from "@/components/ui/label";
+import { usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -27,7 +28,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import Link from "next/link"; 
+import Link from "next/link";
 import { useAuthStore } from "@/store/auth";
 
 // Sample data
@@ -48,7 +49,7 @@ const data = {
   navSubMenu: [
     {
       subject: "Dashboard",
-      link: "/dashboard/",
+      link: "/dashboard",
       icon: LayoutDashboard,
     },
     {
@@ -80,11 +81,18 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname();
   const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
-  const [activeMailSubject, setActiveMailSubject] = React.useState("");
+
   const [mails, setMails] = React.useState(data.navSubMenu);
   const { setOpen } = useSidebar();
-  const { user  } = useAuthStore();
+  const { user } = useAuthStore();
+
+  // Instead of useState for activeMailSubject, derive it:
+  const activeMailSubject = React.useMemo(() => {
+    const match = data.navSubMenu.find((mail) => mail.link === pathname);
+    return match ? match.subject : "";
+  }, [pathname]);
 
   return (
     <Sidebar
@@ -157,21 +165,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup className="px-0">
-            <SidebarGroupContent>
+            <SidebarGroupContent className="space-y-2">
               {mails.map((mail) => (
                 <Link
                   href={mail.link}
                   key={mail.link}
-                  className={`gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0`}
-                  onClick={() => setActiveMailSubject(mail.subject)}
+                  className={`mx-2 bg-white rounded-xl shadow-sm border border-gray-100 flex items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0
+                  hover:shadow-md hover:border-orange-200
+                  ${
+                    activeMailSubject === mail.subject
+                      ? "border-r-4 border-r-orange-200 font-medium"
+                      : ""
+                  }
+                `}
+                   
                 >
-                  {/* Render the respective icon */}
                   <mail.icon size={16} />
-                  <span
-                    className={`transition ${activeMailSubject === mail.subject ? "font-medium" : "font-normal"}`}
-                  >
-                    {mail.subject}
-                  </span>
+                  <span className="transition">{mail.subject}</span>
                 </Link>
               ))}
             </SidebarGroupContent>
