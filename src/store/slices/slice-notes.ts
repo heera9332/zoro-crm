@@ -1,19 +1,6 @@
 import { StateCreator } from "zustand";
-import { Note } from "@/payload-types";
 import { axios } from "@/lib/axios";
-
-export interface NotesSlice {
-  notes: Note[];
-  loadingNotes: boolean;
-  notesPagination: any;
-  currentNote: Note | null;
-
-  getNotes: (query?: { limit?: number; page?: number; q?: string }) => Promise<void>;
-  getNote: (id: string) => Promise<Note | null>;
-  addNote: (note: Note) => void;
-  updateNote: (id: string, data: Partial<Note>) => void;
-  removeNote: (id: string) => void;
-}
+import { NotesSlice } from "../types";
 
 export const createNotesSlice: StateCreator<
   NotesSlice,
