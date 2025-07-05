@@ -11,6 +11,8 @@ import {
   StickyNote,
   User,
   Group,
+  MessageCircle,
+  User2Icon,
 } from "lucide-react";
 import { NavUser } from "@/components/nav-user";
 import { Label } from "@/components/ui/label";
@@ -45,7 +47,14 @@ const data = {
       icon: LayoutDashboard,
       isActive: true,
     },
+    {
+      title: "Messaging",
+      url: "/messaging",
+      icon: MessageCircle,
+      isActive: false,
+    },
   ],
+
   navSubMenu: [
     {
       subject: "Dashboard",
@@ -76,6 +85,14 @@ const data = {
       subject: "Users",
       link: "/dashboard/users",
       icon: Group,
+    },
+  ],
+
+  messagingSubMenu: [
+    {
+      subject: "Users",
+      link: "/messaging",
+      icon: User2Icon,
     },
   ],
 };
@@ -178,7 +195,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       : ""
                   }
                 `}
-                   
                 >
                   <mail.icon size={16} />
                   <span className="transition">{mail.subject}</span>

@@ -1,14 +1,23 @@
- 
+"use client";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
+import { useAuthStore } from "@/store/auth";
+import { useNotificationSocket } from "@/hooks/use-notification-socket";
+import { DashboardBreadcrumb } from "./_components/breadcrumb";
+import { Toaster } from "@/components/ui/sonner";
+
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { DashboardBreadcrumb } from "./_components/breadcrumb";
+import { NavActions } from "./_components/nav-actions";
+import { NotificationsTray } from "./_components/notifications-tray";
 
 export default function Page({ children }) {
+  const { user } = useAuthStore();
+  useNotificationSocket(user?.id);
+
   return (
     <html>
       <head></head>
@@ -16,7 +25,7 @@ export default function Page({ children }) {
         <SidebarProvider
           style={
             {
-              "--sidebar-width": "350px",
+              "--sidebar-width": "320px",
             } as React.CSSProperties
           }
         >
@@ -28,13 +37,20 @@ export default function Page({ children }) {
                 orientation="vertical"
                 className="mr-2 data-[orientation=vertical]:h-4"
               />
-              <DashboardBreadcrumb/>
+              <div className="flex justify-between w-full">
+                <DashboardBreadcrumb />
+                <div className="flex justify-end gap-2">
+                  <NotificationsTray />
+                  <NavActions />
+                </div>
+              </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 app-main">
               {children}
             </div>
           </SidebarInset>
         </SidebarProvider>
+        <Toaster />
       </body>
     </html>
   );

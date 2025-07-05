@@ -82,4 +82,35 @@ export const Notification: CollectionConfig = {
       },
     },
   ],
+
+  hooks: {
+     afterChange: [
+      async ({ doc, operation }) => {
+        // Only emit for create or update (skip delete, etc)
+        // if (operation === "create" || operation === "update") {
+        //   const io = getSocket();
+        //   console.log("io isntance");
+        //   console.log(io)
+
+        //   if (io) {
+        //     // Emit to all clients:
+        //     console.log("sending notifications to all")
+        //     io.emit("notification:new", doc);
+
+        //     // If you want per-user, emit to specific rooms:
+        //     if (doc?.recipients && Array.isArray(doc.recipients)) {
+        //       doc.recipients.forEach((recipient: any) => {
+        //         const userId = typeof recipient === "string" ? recipient : recipient?.id;
+        //         if (userId) {
+        //           io.to(userId).emit("notification:new", doc);
+        //         }
+        //       });
+        //     } else {
+        //       io.emit("notification:new", doc); // fallback: broadcast to all
+        //     }
+        //   }
+        // }
+      }
+    ]
+  }
 };
