@@ -31,7 +31,6 @@ export const Tasks: CollectionConfig = {
       type: "relationship",
       relationTo: "users",
       label: "Author",
-      hasMany: true,
       admin: {
         position: "sidebar",
       },
@@ -109,10 +108,8 @@ export const Tasks: CollectionConfig = {
       label: "Due Date",
       admin: {
         position: "sidebar",
-        custom: {
-          date: {
-            pickerAppearance: "dayAndTime",
-          },
+        date: {
+          pickerAppearance: "dayAndTime",
         },
       },
     },

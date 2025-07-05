@@ -21,14 +21,16 @@ import { Chats } from "./collections/Chats";
 import { Messages } from "./collections/Messages";
 import { Events } from "./collections/Events";
 import { Todos } from "./collections/Todos";
-import { Notification } from "./collections/Notification";
+import { Notification } from "./collections/Notifications";
 import EmailTemplates from "@/global/templates/email";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+  secret: process.env.PAYLOAD_SECRET || "b8956f7c193b3c03f6f8bf0f",
   globals: [EmailTemplates],
+
   email: nodemailerAdapter({
     defaultFromAddress: process.env.SMTP_FROM!,
     defaultFromName: process.env.APP_NAME!,
@@ -68,14 +70,15 @@ export default buildConfig({
     Todos,
     Notification
   ],
-  editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || "",
+
+  editor: lexicalEditor(), 
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || "",
   }),
+
   plugins: [
     formBuilderPlugin({
       fields: {
@@ -93,5 +96,6 @@ export default buildConfig({
       },
     }),
   ],
+
   // endpoints: [sendTestEmail],
 });
