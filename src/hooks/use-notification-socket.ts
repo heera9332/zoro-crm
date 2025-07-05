@@ -24,6 +24,10 @@ export function useNotificationSocket(currentUserId?: string) {
 
     socket.on("notification:new", handleNewNotification);
 
+    socket.on("test", (data) => {
+      console.log(data);
+    })
+
     return () => {
       socket.off("notification:new", handleNewNotification);
       if (currentUserId) {

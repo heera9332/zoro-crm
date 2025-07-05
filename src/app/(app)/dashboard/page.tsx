@@ -1,6 +1,15 @@
 import Link from "next/link";
 import React from "react";
-import { ListChecks, ListTodo, KanbanSquare, StickyNote } from "lucide-react";
+import {
+  ListChecks,
+  ListTodo,
+  KanbanSquare,
+  StickyNote,
+  User2,
+  Bell,
+} from "lucide-react";
+import Spacer from "./_components/spacer";
+import { DashboardAnalytics } from "./_components/dashbaord-analytics";
 
 const actions = [
   {
@@ -27,6 +36,17 @@ const actions = [
     link: "/dashboard/notes",
     icon: <StickyNote className="lucide h-6 w-6 text-yellow-500" />,
   },
+  {
+    title: "Users",
+    desc: "View user information",
+    link: "/dashboard/users",
+    icon: <User2 className="lucide h-6 w-6 text-green-500" />,
+  },{
+    title: "Notifications",
+    desc: "View notifications",
+    link: "/dashboard/notifications",
+    icon: <Bell className="lucide h-6 w-6 text-red-500" />,
+  },
 ];
 
 function Page() {
@@ -50,6 +70,10 @@ function Page() {
           </div>
         ))}
       </div>
+
+      <Spacer height="64"/>
+
+      <DashboardAnalytics/>
     </div>
   );
 }
