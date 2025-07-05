@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { NavUser } from "@/components/nav-user";
 import { Label } from "@/components/ui/label";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -48,10 +48,10 @@ const data = {
       isActive: true,
     },
     {
-      title: "Messaging",
-      url: "/messaging",
-      icon: MessageCircle,
-      isActive: false,
+      title: "Calendar",
+      url: "/dashboard/calendar",
+      icon: LayoutDashboard,
+      isActive: true,
     },
   ],
 
@@ -86,6 +86,11 @@ const data = {
       link: "/dashboard/users",
       icon: Group,
     },
+    {
+      subject: "Messaging",
+      link: "/dashboard/messaging",
+      icon: MessageCircle,
+    },
   ],
 
   messagingSubMenu: [
@@ -99,17 +104,36 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
-  const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
-
-  const [mails, setMails] = React.useState(data.navSubMenu);
+  const router = useRouter();
   const { setOpen } = useSidebar();
   const { user } = useAuthStore();
 
-  // Instead of useState for activeMailSubject, derive it:
-  const activeMailSubject = React.useMemo(() => {
-    const match = data.navSubMenu.find((mail) => mail.link === pathname);
-    return match ? match.subject : "";
+  // Determine which main nav item should be active based on current path
+  const activeItem = React.useMemo(() => {
+    if (pathname.startsWith('/messaging')) {
+      return data.navMain.find(item => item.title === 'Messaging') || data.navMain[0];
+    }
+    return data.navMain.find(item => item.title === 'Dashboard') || data.navMain[0];
   }, [pathname]);
+
+  // Get the appropriate submenu based on active item
+  const currentSubmenu = React.useMemo(() => {
+    if (activeItem?.title === 'Messaging') {
+      return data.messagingSubMenu;
+    }
+    return data.navSubMenu;
+  }, [activeItem]);
+
+  // Determine active submenu item
+  const activeMailSubject = React.useMemo(() => {
+    const match = currentSubmenu.find((item) => item.link === pathname);
+    return match ? match.subject : "";
+  }, [pathname, currentSubmenu]);
+
+  const handleMainNavClick = (item: typeof data.navMain[0]) => {
+    setOpen(true);
+    router.push(item.url);
+  };
 
   return (
     <Sidebar
@@ -149,10 +173,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         children: item.title,
                         hidden: false,
                       }}
-                      onClick={() => {
-                        setActiveItem(item);
-                        setOpen(true);
-                      }}
+                      onClick={() => handleMainNavClick(item)}
                       isActive={activeItem?.title === item.title}
                       className="px-2.5 md:px-2"
                     >
@@ -183,21 +204,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarContent>
           <SidebarGroup className="px-0">
             <SidebarGroupContent className="space-y-2">
-              {mails.map((mail) => (
+              {currentSubmenu.map((item) => (
                 <Link
-                  href={mail.link}
-                  key={mail.link}
+                  href={item.link}
+                  key={item.link}
                   className={`mx-2 bg-white rounded-xl shadow-sm border border-gray-100 flex items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0
-                  hover:shadow-md hover:border-orange-200
+                  hover:shadow-md hover:border-orange-200 transition-all duration-200
                   ${
-                    activeMailSubject === mail.subject
-                      ? "border-r-4 border-r-orange-200 font-medium"
+                    activeMailSubject === item.subject
+                      ? "border-r-4 border-r-orange-200 font-medium bg-orange-50"
                       : ""
                   }
                 `}
                 >
-                  <mail.icon size={16} />
-                  <span className="transition">{mail.subject}</span>
+                  <item.icon size={16} />
+                  <span className="transition">{item.subject}</span>
                 </Link>
               ))}
             </SidebarGroupContent>

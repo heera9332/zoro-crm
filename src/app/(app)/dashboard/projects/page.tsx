@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link"; 
+import Link from "next/link";
 import Image from "next/image";
 import React, { Suspense, useEffect } from "react";
 import Loader from "../_components/loader";
@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/pagination";
 
 function Page() {
-  const { projects, loadProjects, loadingProjects, projectsPagination} = useProjects();
+  const { projects, loadProjects, loadingProjects, projectsPagination } =
+    useProjects();
   const searchParams = useSearchParams();
 
   // Get the current query and page from URL
@@ -40,7 +41,7 @@ function Page() {
     // update URL with page param, preserving q param
     const params = new URLSearchParams(Array.from(searchParams.entries()));
     params.set("page", String(newPage));
-    window.history.replaceState({}, '', `?${params.toString()}`);
+    window.history.replaceState({}, "", `?${params.toString()}`);
     // Use useRouter() if you prefer (recommended in Next.js App Router)
     // router.replace(`?${params.toString()}`, { scroll: false });
     // No need to call loadProjects here, the effect will handle it
@@ -50,7 +51,11 @@ function Page() {
     <div className="app-page px-2 pb-8">
       <h1 className="mb-4">Projects</h1>
       {/* Pass the query param as the initial value */}
-      <ProjectSearch onSearch={handleSearch} loading={loadingProjects} initialValue={q} />
+      <ProjectSearch
+        onSearch={handleSearch}
+        loading={loadingProjects}
+        initialValue={q}
+      />
       {loadingProjects && (
         <div className="flex justify-center items-center min-h-[200px]">
           <Loader />
@@ -70,7 +75,8 @@ function Page() {
                 ? project.featuredImage.alt
                 : "project";
             return (
-              <div
+              <Link
+                href={`/dashboard/projects/${project.id}`}
                 key={project.id}
                 className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:translate-y-[-4px]"
               >
@@ -83,79 +89,85 @@ function Page() {
                     className="object-cover aspect-4/3"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  <Link href={`/dashboard/projects/${project.id}`}>
-                    {project.title}
-                  </Link>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2" title={project.title}>
+                  {project.title.length > 10 ? project.title.slice(0, 18) + "..." : project.title}
                 </h3>
-              </div>
+                <div className="project-meta">
+                  <p>
+                    <strong>Statue: </strong>
+                    {project?.status}
+                  </p>
+                </div>
+              </Link>
             );
           })}
         </div>
       )}
 
-      {!loadingProjects && projectsPagination && projectsPagination.totalPages > 1 && (
-        <div className="mt-8 flex justify-start">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() =>
-                    projectsPagination.prevPage &&
-                    handlePageChange(projectsPagination.prevPage)
+      {!loadingProjects &&
+        projectsPagination &&
+        projectsPagination.totalPages > 1 && (
+          <div className="mt-8 flex justify-start">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() =>
+                      projectsPagination.prevPage &&
+                      handlePageChange(projectsPagination.prevPage)
+                    }
+                    aria-disabled={!projectsPagination.hasPrevPage}
+                    tabIndex={!projectsPagination.hasPrevPage ? -1 : undefined}
+                    className={
+                      !projectsPagination.hasPrevPage
+                        ? "opacity-50 pointer-events-none"
+                        : ""
+                    }
+                  />
+                </PaginationItem>
+                {Array.from({ length: projectsPagination.totalPages }).map(
+                  (_, idx) => {
+                    const pageNum = idx + 1;
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          className="cursor-pointer"
+                          isActive={projectsPagination.page === pageNum}
+                          onClick={() => handlePageChange(pageNum)}
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
                   }
-                  aria-disabled={!projectsPagination.hasPrevPage}
-                  tabIndex={!projectsPagination.hasPrevPage ? -1 : undefined}
-                  className={
-                    !projectsPagination.hasPrevPage
-                      ? "opacity-50 pointer-events-none"
-                      : ""
-                  }
-                />
-              </PaginationItem>
-              {Array.from({ length: projectsPagination.totalPages }).map(
-                (_, idx) => {
-                  const pageNum = idx + 1;
-                  return (
-                    <PaginationItem key={pageNum}>
-                      <PaginationLink
-                        className="cursor-pointer"
-                        isActive={projectsPagination.page === pageNum}
-                        onClick={() => handlePageChange(pageNum)}
-                      >
-                        {pageNum}
-                      </PaginationLink>
-                    </PaginationItem>
-                  );
-                }
-              )}
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() =>
-                    projectsPagination.nextPage &&
-                    handlePageChange(projectsPagination.nextPage)
-                  }
-                  aria-disabled={!projectsPagination.hasNextPage}
-                  tabIndex={!projectsPagination.hasNextPage ? -1 : undefined}
-                  className={
-                    !projectsPagination.hasNextPage
-                      ? "opacity-50 pointer-events-none"
-                      : ""
-                  }
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
+                )}
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() =>
+                      projectsPagination.nextPage &&
+                      handlePageChange(projectsPagination.nextPage)
+                    }
+                    aria-disabled={!projectsPagination.hasNextPage}
+                    tabIndex={!projectsPagination.hasNextPage ? -1 : undefined}
+                    className={
+                      !projectsPagination.hasNextPage
+                        ? "opacity-50 pointer-events-none"
+                        : ""
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
     </div>
   );
 }
 
 export default function PageMain() {
   return (
-    <Suspense fallback={<Loader/>}>
-      <Page/>
+    <Suspense fallback={<Loader />}>
+      <Page />
     </Suspense>
-  )
+  );
 }
