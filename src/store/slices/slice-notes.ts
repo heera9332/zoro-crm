@@ -2,6 +2,18 @@ import { StateCreator } from "zustand";
 import { axios } from "@/lib/axios";
 import { NotesSlice } from "../types";
 
+/** todo configure note slie */
+// export interface NoteSlice {
+//   tasks: Note[];
+//   loadingTasks: boolean;
+//   tasksPagination: ObjectPagination | null;
+
+//   addTask: (task: Task) => void;
+//   updateTask: (id: string, data: Partial<Task>) => void;
+//   removeTask: (id: string) => void;
+//   loadTasks: (query?: { limit?: number; page?: number; q?: string }) => Promise<void>;
+// }
+
 export const createNotesSlice: StateCreator<
   NotesSlice,
   [],

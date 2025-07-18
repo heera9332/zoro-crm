@@ -42,21 +42,7 @@ export const Posts: CollectionConfig = {
       admin: {
         position: "sidebar",
       },
-    },
-    {
-      name: "status",
-      type: "select",
-      label: "Post Status",
-      options: [
-        { label: "Draft", value: "draft" },
-        { label: "Published", value: "published" },
-        { label: "Archived", value: "archived" },
-      ],
-      defaultValue: "draft",
-      admin: {
-        position: "sidebar",
-      },
-    },
+    }, 
     {
       name: "featuredImage",
       type: "upload",

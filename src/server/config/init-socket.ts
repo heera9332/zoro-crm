@@ -1,5 +1,5 @@
 import { Server as SocketIOServer } from "socket.io";
-import { doAction } from "@/server/filters";
+import { doAction } from "@/server/hooks";
 
 let io: SocketIOServer | null = null;
 

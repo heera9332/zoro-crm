@@ -37,6 +37,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "tsconfig.server.json",
     ".next/types/**/*.ts"
   ],
   "exclude": [
