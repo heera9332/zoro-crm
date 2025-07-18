@@ -62,7 +62,7 @@ export default function Page({ params }: { params: { id: string } }) {
         {/* Right Column */}
         <div className="w-full sm:w-72 flex-shrink-0">
           <div className="mb-6">
-            <div className="rounded-xl overflow-hidden border border-gray-100 bg-orange-50 p-2">
+            <div className="rounded-md overflow-hidden border border-gray-100 bg-orange-50 p-2">
               <Image
                 src={
                   typeof featuredImage === "object" && featuredImage?.url

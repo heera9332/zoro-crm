@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Loader from "../_components/loader";
 import Link from "next/link";
 import Image from "next/image";
+import { User } from "@/payload-types";
 
 function UserSearch({
   onSearch,
@@ -86,8 +87,8 @@ function UsersPage() {
       )}
 
       {!loadingUsers && (
-        <div className="users mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 transition-all delay-200">
-          {users.map((user) => {
+        <div className="object-grid-list mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 transition-all delay-200">
+          {users.map((user: User) => {
             const imgUrl =
               typeof user?.avatar === "object" && user?.avatar?.url
                 ? user?.avatar?.url
@@ -99,7 +100,7 @@ function UsersPage() {
             return (
               <div
                 key={user.id}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:translate-y-[-4px]"
+                className="bg-white rounded-md shadow-sm border border-gray-100 p-6 flex flex-col items-center transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:translate-y-[-4px]"
               >
                 <div className="mb-3 w-20 h-20 rounded-full overflow-hidden border">
                   <Image

@@ -53,11 +53,11 @@ function TasksPage() {
       )}
 
       {!loadingTasks && (
-        <div className="tasks mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 transition-all delay-200">
+        <div className="object-grid-list mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 transition-all delay-200">
           {tasks.map((task) => (
             <div
               key={task.id}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:translate-y-[-4px]"
+              className="bg-white rounded-md shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:translate-y-[-4px]"
             >
               <div className="mb-4 flex justify-between items-start gap-2">
                 <span

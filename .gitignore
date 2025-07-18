@@ -46,3 +46,4 @@ build
 **/*.mp4
 *.sh
 dump
+*.lock

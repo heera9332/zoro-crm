@@ -208,7 +208,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <Link
                   href={item.link}
                   key={item.link}
-                  className={`mx-2 bg-white rounded-xl shadow-sm border border-gray-100 flex items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0
+                  className={`mx-2 bg-white rounded-md shadow-sm border border-gray-100 flex items-start gap-2 border-b px-[16px] py-[12px] text-sm leading-tight whitespace-nowrap last:border-b-0
                   hover:shadow-md hover:border-orange-200 transition-all duration-200
                   ${
                     activeMailSubject === item.subject

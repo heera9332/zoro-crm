@@ -58,7 +58,7 @@ function Page() {
         {actions.map((action) => (
           <div
             key={action.title}
-            className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:translate-y-[-4px]"
+            className="bg-white rounded-md shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:translate-y-[-4px]"
           >
             <div className="bg-orange-50 rounded-full w-12 h-12 flex items-center justify-center mb-4">
               {action.icon}

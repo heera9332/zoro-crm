@@ -36,7 +36,9 @@ h3 {
 }
 
 .app-page {
-  padding-top: 32px;
+  padding-top: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 /** rich text formatting if initiall style was not good */

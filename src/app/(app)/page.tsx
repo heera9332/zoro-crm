@@ -333,8 +333,8 @@ export default function HomePage() {
               </div>
               <div className="lg:w-1/2 mt-12 lg:mt-0">
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-orange-300 rounded-xl blur-lg opacity-30"></div>
-                  <div className="relative bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-orange-300 rounded-md blur-lg opacity-30"></div>
+                  <div className="relative bg-white border border-gray-200 rounded-md shadow-xl overflow-hidden">
                     <img
                       src="https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                       alt="Zoro CRM Dashboard"
@@ -408,7 +408,7 @@ export default function HomePage() {
               ].map((f, i) => (
                 <div
                   key={i}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:-translate-y-1"
+                  className="bg-white rounded-md shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:-translate-y-1"
                 >
                   <div className="bg-orange-50 rounded-full w-12 h-12 flex items-center justify-center mb-4">
                     {React.cloneElement(f.icon, {

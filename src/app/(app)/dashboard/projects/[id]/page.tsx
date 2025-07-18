@@ -116,7 +116,7 @@ export default function Page() {
         {/* Right Column */}
         <div className="w-full sm:w-72 flex-shrink-0">
           <div className="mb-6">
-            <div className="rounded-xl overflow-hidden border border-gray-100 bg-orange-50 p-2">
+            <div className="rounded-md overflow-hidden border border-gray-100 bg-orange-50 p-2">
               <Image
                 // @ts-ignore
                 src={featuredImage?.url || "/api/media/file/4.png"}

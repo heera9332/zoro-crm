@@ -86,7 +86,7 @@ function NotesPage() {
       )}
 
       {!loadingNotes && (
-        <div className="notes mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 transition-all delay-200">
+        <div className="object-grid-list mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 transition-all delay-200">
           {notes.map((note) => {
             // Handle featured image (optional chaining in case data is string/null)
             const imgUrl =
@@ -100,7 +100,7 @@ function NotesPage() {
             return (
               <div
                 key={note.id}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:translate-y-[-4px]"
+                className="bg-white rounded-md shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:translate-y-[-4px]"
               >
                 <div className="bg-orange-50 flex items-center justify-center mb-4 overflow-hidden">
                   <Image

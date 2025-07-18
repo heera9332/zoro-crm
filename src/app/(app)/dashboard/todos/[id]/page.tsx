@@ -91,7 +91,7 @@ export default function TodoDetailPage() {
         {/* Right Column */}
         <div className="w-full sm:w-72 flex-shrink-0">
           <div className="mb-6">
-            <div className="rounded-xl overflow-hidden border border-gray-100 bg-orange-50 p-2 flex items-center justify-center min-h-[120px]">
+            <div className="rounded-md overflow-hidden border border-gray-100 bg-orange-50 p-2 flex items-center justify-center min-h-[120px]">
               {/* You can add an icon or illustration here if desired */}
               <span className="text-orange-400 text-4xl">📝</span>
             </div>

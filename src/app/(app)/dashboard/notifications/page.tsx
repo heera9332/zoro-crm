@@ -62,7 +62,7 @@ function Page() {
         <div className="flex flex-col gap-4">
           {notifications.map((notif) => (
             <Link href={`/dashboard/notifications/${notif.id}`} key={notif.id}>
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:-translate-y-1">
+              <div className="bg-white rounded-md shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:-translate-y-1">
                 <h3 className="text-lg font-semibold mb-2">{notif.title}</h3>
                 <p className="text-sm text-gray-700 mb-1">{notif.content}</p>
                 <span

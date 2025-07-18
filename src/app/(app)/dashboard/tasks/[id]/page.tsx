@@ -128,7 +128,7 @@ export default function Page() {
         {/* Right Column */}
         <div className="w-full sm:w-72 flex-shrink-0">
           <div className="mb-6">
-            <div className="rounded-xl overflow-hidden border border-gray-100 bg-orange-50 p-2 flex items-center justify-center min-h-[120px]">
+            <div className="rounded-md overflow-hidden border border-gray-100 bg-orange-50 p-2 flex items-center justify-center min-h-[120px]">
               <span className="text-orange-400 text-6xl">
                 <svg width={44} height={44} fill="none" viewBox="0 0 24 24">
                   <path
