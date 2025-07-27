@@ -10,11 +10,11 @@
   "scripts": {
     "build": "next build && tsc --project tsconfig.server.json",
     "build-start": "next build && tsc --project tsconfig.server.json && bun run start",
-    "dev": "nodemon",
+    "dev": "next dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "start": "next start",
     "clean": "rm node_modules -rf && rm .next -rf && rm dist/ -rf"
   },
   "dependencies": {

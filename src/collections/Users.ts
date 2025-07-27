@@ -71,6 +71,15 @@ export const Users: CollectionConfig = {
       },
     },
     {
+      name: 'status',
+      type: 'select',
+      options: ['online', 'offline', 'away'],
+      defaultValue: 'offline',
+      admin: {
+        position: 'sidebar'
+      }
+    },
+    {
       name: "phone",
       type: "text",
       label: "Phone Number",

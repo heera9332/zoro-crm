@@ -6,7 +6,7 @@ import {
   createTaskSlice,
   TaskSlice,
   createNotesSlice,
-  NotesSlice,
+  NoteSlice,
   createTodosSlice,
   TodosSlice,
   createUsersSlice,
@@ -15,7 +15,7 @@ import {
   NotificationSlice,
 } from "@/store/slices/index";
 
-type AppState = ProjectSlice & TaskSlice & NotesSlice & TodosSlice & UsersSlice & NotificationSlice;
+type AppState = ProjectSlice & TaskSlice & TodosSlice & UsersSlice & NoteSlice & NotificationSlice;
 
 export const useAppStore = create<AppState>()(
   persist(

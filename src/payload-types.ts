@@ -175,6 +175,7 @@ export interface User {
    * Upload a profile picture (optional).
    */
   avatar?: (string | null) | Media;
+  status?: ('online' | 'offline' | 'away') | null;
   phone?: string | null;
   position?: string | null;
   isActive?: boolean | null;
@@ -216,6 +217,13 @@ export interface User {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
   password?: string | null;
 }
 /**
@@ -327,7 +335,6 @@ export interface Post {
     [k: string]: unknown;
   } | null;
   author?: (string | null) | User;
-  status?: ('draft' | 'published' | 'archived') | null;
   featuredImage?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
@@ -427,6 +434,7 @@ export interface Project {
 export interface Task {
   id: string;
   title: string;
+  parent?: (string | null) | Task;
   content?: {
     root: {
       type: string;
@@ -443,7 +451,7 @@ export interface Task {
     [k: string]: unknown;
   } | null;
   comments?: (string | null) | Comment;
-  author?: (string | User)[] | null;
+  author?: (string | null) | User;
   status?: ('to-do' | 'in-progress' | 'completed') | null;
   assignedTo?: (string | User)[] | null;
   project?: (string | null) | Project;
@@ -511,20 +519,29 @@ export interface Timeline {
  */
 export interface Chat {
   id: string;
+  type: 'private' | 'group' | 'support';
   /**
-   * Optional name for group chats
+   * Optional title, used for group/support chats
    */
   title?: string | null;
   /**
-   * Users who can see & send messages in this chat
+   * Group chat avatar
+   */
+  avatar?: (string | null) | Media;
+  /**
+   * Users in the chat
    */
   participants: (string | User)[];
   /**
-   * Denormalized pointer to the most recent Message
+   * Admins (only in group chats)
+   */
+  admins?: (string | User)[] | null;
+  /**
+   * Latest message sent in this chat (cached)
    */
   lastMessage?: (string | null) | Message;
   /**
-   * Map of userID → number of unread messages
+   * Map of { userId: number of unread messages }
    */
   unreadCounts?:
     | {
@@ -535,6 +552,14 @@ export interface Chat {
     | number
     | boolean
     | null;
+  /**
+   * Users who muted this chat
+   */
+  mutedBy?: (string | User)[] | null;
+  /**
+   * Users who archived this chat
+   */
+  archivedBy?: (string | User)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -545,20 +570,33 @@ export interface Chat {
 export interface Message {
   id: string;
   /**
-   * Which Chat this message belongs to
+   * Which chat this message belongs to
    */
   chat: string | Chat;
   sender: string | User;
-  text: string;
-  /**
-   * Determines if `text` vs `attachment` is shown
-   */
-  type?: ('text' | 'image' | 'file') | null;
+  text?: string | null;
+  type: 'text' | 'image' | 'video' | 'file' | 'sticker' | 'system';
   attachment?: (string | null) | Media;
   /**
-   * Users who have viewed this message
+   * If this message is a reply to another message
+   */
+  replyTo?: (string | null) | Message;
+  /**
+   * If this message was forwarded from another user
+   */
+  forwardedFrom?: (string | null) | User;
+  /**
+   * Users who have read this message
    */
   seenBy?: (string | User)[] | null;
+  /**
+   * Users for whom this message is deleted (soft delete)
+   */
+  deletedFor?: (string | User)[] | null;
+  /**
+   * If message was edited, store timestamp
+   */
+  editedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -991,6 +1029,7 @@ export interface UsersSelect<T extends boolean = true> {
   lastName?: T;
   workspaces?: T;
   avatar?: T;
+  status?: T;
   phone?: T;
   position?: T;
   isActive?: T;
@@ -1033,6 +1072,13 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1084,7 +1130,6 @@ export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   content?: T;
   author?: T;
-  status?: T;
   featuredImage?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1138,6 +1183,7 @@ export interface ProjectsSelect<T extends boolean = true> {
  */
 export interface TasksSelect<T extends boolean = true> {
   title?: T;
+  parent?: T;
   content?: T;
   comments?: T;
   author?: T;
@@ -1183,10 +1229,15 @@ export interface CommentsSelect<T extends boolean = true> {
  * via the `definition` "chats_select".
  */
 export interface ChatsSelect<T extends boolean = true> {
+  type?: T;
   title?: T;
+  avatar?: T;
   participants?: T;
+  admins?: T;
   lastMessage?: T;
   unreadCounts?: T;
+  mutedBy?: T;
+  archivedBy?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1200,7 +1251,11 @@ export interface MessagesSelect<T extends boolean = true> {
   text?: T;
   type?: T;
   attachment?: T;
+  replyTo?: T;
+  forwardedFrom?: T;
   seenBy?: T;
+  deletedFor?: T;
+  editedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

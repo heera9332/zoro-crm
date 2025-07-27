@@ -214,8 +214,11 @@ export function NotificationsTray() {
   }, [loadNotifications]);
 
   const unreadCount = React.useMemo(() => {
-    return notifications.filter(n => n.statusRead === 'unread').length;
-  }, [notifications]);
+  return Array.isArray(notifications)
+    ? notifications.filter(n => n.statusRead === 'unread').length
+    : 0;
+}, [notifications]);
+
 
   const handleMarkAsRead = React.useCallback((id: string) => {
     updateNotification(id, { statusRead: 'read' });

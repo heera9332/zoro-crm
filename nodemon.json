@@ -1,5 +1,0 @@
-{
-  "watch": ["src/server/index.ts"],
-  "exec": "bun src/server/index.ts",
-  "ext": "ts"
-}

@@ -1,4 +1,3 @@
-// collections/Chats.ts
 import { CollectionConfig } from "payload";
 
 const Chats: CollectionConfig = {
@@ -11,18 +10,43 @@ const Chats: CollectionConfig = {
     useAsTitle: "title",
   },
   access: {
-    read: ({ req }) => !!req.user, // only logged-in users
-    create: ({ req }) => !!req.user, // allow creation via API/UI
+    read: ({ req }) => !!req.user,
+    create: ({ req }) => !!req.user,
     update: ({ req }) => !!req.user,
-    delete: () => false, // disable destructive deletes
+    delete: () => false,
   },
   fields: [
+    {
+      name: "type",
+      type: "select",
+      options: [
+        { label: "Private (1-on-1)", value: "private" },
+        { label: "Group", value: "group" },
+        { label: "Support", value: "support" },
+      ],
+      defaultValue: "private",
+      required: true,
+      admin: {
+        position: "sidebar",
+      },
+    },
     {
       name: "title",
       type: "text",
       required: false,
       admin: {
-        description: "Optional name for group chats",
+        description: "Optional title, used for group/support chats",
+        condition: (data) => data?.type === "group" || data?.type === "support",
+      },
+    },
+    {
+      name: "avatar",
+      type: "upload",
+      relationTo: "media",
+      required: false,
+      admin: {
+        description: "Group chat avatar",
+        condition: (data) => data?.type === "group",
       },
     },
     {
@@ -32,7 +56,18 @@ const Chats: CollectionConfig = {
       hasMany: true,
       required: true,
       admin: {
-        description: "Users who can see & send messages in this chat",
+        description: "Users in the chat",
+      },
+    },
+    {
+      name: "admins",
+      type: "relationship",
+      relationTo: "users",
+      hasMany: true,
+      required: false,
+      admin: {
+        description: "Admins (only in group chats)",
+        condition: (data) => data?.type === "group",
       },
     },
     {
@@ -41,7 +76,7 @@ const Chats: CollectionConfig = {
       relationTo: "messages",
       required: false,
       admin: {
-        description: "Denormalized pointer to the most recent Message",
+        description: "Latest message sent in this chat (cached)",
       },
     },
     {
@@ -49,19 +84,49 @@ const Chats: CollectionConfig = {
       type: "json",
       required: false,
       admin: {
-        description: "Map of userID → number of unread messages",
+        description: "Map of { userId: number of unread messages }",
+      },
+    },
+    {
+      name: "mutedBy",
+      type: "relationship",
+      relationTo: "users",
+      hasMany: true,
+      required: false,
+      admin: {
+        description: "Users who muted this chat",
+      },
+    },
+    {
+      name: "archivedBy",
+      type: "relationship",
+      relationTo: "users",
+      hasMany: true,
+      required: false,
+      admin: {
+        description: "Users who archived this chat",
       },
     },
   ],
-  timestamps: true, // automatically adds createdAt & updatedAt
- 
+  timestamps: true,
   hooks: {
     afterChange: [
       async ({ doc, req }) => {
-        // e.g. reset unreadCounts for req.user when they open the chat
+        // Example: reset unreadCounts for opening user
+        if (req.user && doc.unreadCounts) {
+          doc.unreadCounts[req.user.id] = 0;
+          await req.payload.update({
+            collection: 'chats',
+            id: doc.id,
+            data: {
+              unreadCounts: doc.unreadCounts,
+            },
+            overrideAccess: true,
+          });
+        }
       },
     ],
   },
 };
 
-export  {Chats};
+export { Chats };

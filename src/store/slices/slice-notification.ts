@@ -1,7 +1,7 @@
 // store/notification-slice.ts
 import { StateCreator } from "zustand"; 
-import { axios } from "@/lib/axios";
-import { NotificationSlice } from "../types";
+import { axios } from "@/lib/axios"; 
+import { Notification } from "@/payload-types";
 
 interface NotificationQuery {
   limit?: number;
@@ -10,6 +10,25 @@ interface NotificationQuery {
 }
 
 
+export interface NotificationSlice {
+  notifications: Notification[];
+  loadingNotifications: boolean;
+  notificationsPagination: {
+    totalDocs: number;
+    limit: number;
+    totalPages: number;
+    page: number;
+    pagingCounter: number;
+    hasPrevPage: boolean;
+    hasNextPage: boolean;
+    prevPage: number | null;
+    nextPage: number | null;
+  } | null;
+  addNotification: (notification: Notification) => void;
+  updateNotification: (id: string, data: Partial<Notification>) => void;
+  removeNotification: (id: string) => void;
+  loadNotifications: (query?: NotificationQuery) => Promise<void>;
+}
 
 export const createNotificationSlice: StateCreator<
   NotificationSlice,

@@ -17,10 +17,17 @@ export const Tasks: CollectionConfig = {
       required: true,
     },
     {
+      name: "parent",
+      type: "relationship",
+      relationTo: "tasks", // self reference
+      label: "Main task",
+    },
+    {
       name: "content",
       type: "richText",
       label: "Task Description",
-    },{
+    }
+    ,{
       name: "comments",
       type: "relationship",
       relationTo: "comments",

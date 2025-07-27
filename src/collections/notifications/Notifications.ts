@@ -1,3 +1,4 @@
+import { getSocket } from "@/server/config/init-socket";
 import type { CollectionConfig } from "payload";
 
 export const Notification: CollectionConfig = {
