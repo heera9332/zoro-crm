@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import Link from "next/link";
+import * as React from 'react';
+import Link from 'next/link';
 import {
   ArrowDown,
   ArrowUp,
@@ -17,14 +17,14 @@ import {
   Star,
   Trash,
   Trash2,
-} from "lucide-react";
+} from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 import {
   Sidebar,
   SidebarContent,
@@ -33,45 +33,23 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 
 const data = [
   [
-    {
-      label: "Customize Page",
-      icon: Settings2,
-      link: "/dashboard/settings",
-    },
-    {
-      label: "Notes",
-      icon: FileText,
-      link: "/dashboard/notes",
-    },
+    { label: 'Customize Page', icon: Settings2, link: '/dashboard/settings' },
+    { label: 'Notes', icon: FileText, link: '/dashboard/notes' },
   ],
   [
-    {
-      label: "Undo",
-      icon: CornerUpLeft,
-    },
-    {
-      label: "View analytics",
-      icon: LineChart,
-      link: "/dashboard#analytics",
-    },
-    {
-      label: "Notifications",
-      icon: Bell,
-      link: "/dashboard/notifications",
-    },
+    { label: 'Undo', icon: CornerUpLeft },
+    { label: 'View analytics', icon: LineChart, link: '/dashboard#analytics' },
+    { label: 'Notifications', icon: Bell, link: '/dashboard/notifications' },
   ],
 ];
 
 export function NavActions() {
+  // start closed
   const [isOpen, setIsOpen] = React.useState(false);
- 
-  React.useEffect(() => {
-    setIsOpen(true);
-  }, []);
 
   return (
     <div className="flex items-center gap-2 text-sm">
@@ -91,18 +69,21 @@ export function NavActions() {
         >
           <Sidebar collapsible="none" className="bg-transparent">
             <SidebarContent>
-              {data.map((group, index) => (
-                <SidebarGroup key={index} className="border-b last:border-none">
+              {data.map((group, gi) => (
+                <SidebarGroup
+                  key={gi}
+                  className="border-b last:border-none"
+                >
                   <SidebarGroupContent className="gap-0">
                     <SidebarMenu>
-                      {group.map((item, index) => (
-                        <SidebarMenuItem key={index}>
+                      {group.map((item, ii) => (
+                        <SidebarMenuItem key={ii}>
                           <SidebarMenuButton>
                             <Link
-                              className="flex gap-2"
-                              href={item?.link || "#"}
+                              href={item.link ?? '#'}
+                              className="flex gap-2 items-center py-2 px-4"
                             >
-                              <item.icon />
+                              <item.icon className="w-4 h-4" />
                               <span className="text-gray-700">
                                 {item.label}
                               </span>
