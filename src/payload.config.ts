@@ -21,7 +21,7 @@ import { Chats } from "./collections/Chats";
 import { Messages } from "./collections/Messages";
 import { Events } from "./collections/Events";
 import { Todos } from "./collections/Todos";
-import { Notification } from "./collections/Notifications";
+import { Notification } from "./collections/notifications/Notifications";
 import EmailTemplates from "@/global/templates/email";
 
 const filename = fileURLToPath(import.meta.url);
@@ -71,7 +71,7 @@ export default buildConfig({
     Notification
   ],
 
-  editor: lexicalEditor(), 
+  editor: lexicalEditor(),
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
@@ -97,5 +97,6 @@ export default buildConfig({
     }),
   ],
 
-  // endpoints: [sendTestEmail],
+  endpoints: [
+  ],
 });

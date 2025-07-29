@@ -2,7 +2,7 @@
 import { useParams } from "next/navigation";
 import { useUsers } from "@/hooks/use-users";
 import { useEffect } from "react";
-import Loader from "../../_components/loader";
+import Loader from "../../../../../components/dashboard/loader";
 import Image from "next/image";
 
 export default function UserDetailPage() {

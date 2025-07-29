@@ -2,8 +2,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { Suspense, useEffect } from "react";
-import Loader from "../_components/loader";
-import { ProjectSearch } from "../_components/project-search";
+import Loader from "../../../../components/dashboard/loader";
+import { ProjectSearch } from "../../../../components/dashboard/project-search";
 import { useSearchParams } from "next/navigation";
 import { useProjects } from "@/hooks/use-projects";
 import {

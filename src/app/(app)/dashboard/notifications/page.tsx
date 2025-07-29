@@ -2,17 +2,11 @@
 import Link from "next/link";
 import React, { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import Loader from "../_components/loader";
+import Loader from "../../../../components/dashboard/loader";
 import { useNotifications } from "@/hooks/use-notifications";
 import { NotificationSearch } from "@/components/notification-search";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import ObjectPagination from "@/components/dashboard/pagination";
+import { getSocket } from "@/lib/socket";
 
 function Page() {
   const {
@@ -26,7 +20,7 @@ function Page() {
   const q = searchParams.get("q") || "";
   const pageParam = searchParams.get("page");
   const page = pageParam ? Number(pageParam) : 1;
-  const limit = 12;
+  const limit = 12; 
 
   useEffect(() => {
     loadNotifications({ limit, page, q });
@@ -80,68 +74,10 @@ function Page() {
         </div>
       )}
 
-      {!loadingNotifications &&
-        notificationsPagination &&
-        notificationsPagination.totalPages > 1 && (
-          <div className="mt-8 flex justify-start">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    onClick={() =>
-                      notificationsPagination.prevPage &&
-                      handlePageChange(notificationsPagination.prevPage)
-                    }
-                    aria-disabled={!notificationsPagination.hasPrevPage}
-                    tabIndex={
-                      !notificationsPagination.hasPrevPage ? -1 : undefined
-                    }
-                    className={
-                      !notificationsPagination.hasPrevPage
-                        ? "opacity-50 pointer-events-none"
-                        : ""
-                    }
-                  />
-                </PaginationItem>
-
-                {Array.from({
-                  length: notificationsPagination.totalPages,
-                }).map((_, idx) => {
-                  const pageNum = idx + 1;
-                  return (
-                    <PaginationItem key={pageNum}>
-                      <PaginationLink
-                        className="cursor-pointer"
-                        isActive={notificationsPagination.page === pageNum}
-                        onClick={() => handlePageChange(pageNum)}
-                      >
-                        {pageNum}
-                      </PaginationLink>
-                    </PaginationItem>
-                  );
-                })}
-
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() =>
-                      notificationsPagination.nextPage &&
-                      handlePageChange(notificationsPagination.nextPage)
-                    }
-                    aria-disabled={!notificationsPagination.hasNextPage}
-                    tabIndex={
-                      !notificationsPagination.hasNextPage ? -1 : undefined
-                    }
-                    className={
-                      !notificationsPagination.hasNextPage
-                        ? "opacity-50 pointer-events-none"
-                        : ""
-                    }
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        )}
+      <ObjectPagination
+        onPageChange={handlePageChange}
+        pagination={notificationsPagination}
+      />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import { useAuthStore } from "@/store/auth";
 import { useNotificationSocket } from "@/hooks/use-notification-socket";
-import { DashboardBreadcrumb } from "./_components/breadcrumb";
+import { DashboardBreadcrumb } from "../../../components/dashboard/breadcrumb";
 import { Toaster } from "@/components/ui/sonner";
 
 import {
@@ -11,8 +11,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { NavActions } from "./_components/nav-actions";
-import { NotificationsTray } from "./_components/notifications-tray";
+import { NavActions } from "../../../components/dashboard/nav-actions";
+import { NotificationsTray } from "../../../components/dashboard/notifications-tray";
 
 export default function Page({ children }) {
   const { user } = useAuthStore();

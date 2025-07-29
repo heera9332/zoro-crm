@@ -1,8 +1,10 @@
-const isAdmin = ({ req }) => {
-  return req.user?.roles?.some(role => role === 'admin');
+import { PayloadRequest } from "payload";
+
+const isAdmin = ({ req }: { req: PayloadRequest }) => {
+  return req.user?.roles?.some(role => role === 'admin') || false;
 };
 
-const isLogin = ({ req }) => {
+const isLogin = ({ req }: { req: PayloadRequest }) => {
   return !!req.user;
 };
 

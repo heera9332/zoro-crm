@@ -2,9 +2,9 @@
 import { useParams } from "next/navigation";
 import { useAppStore } from "@/store/appStore";
 import React, { useEffect } from "react";
-import Loader from "../../_components/loader";
+import Loader from "../../../../../components/dashboard/loader";
 import Link from "next/link";
-import { UserAvatar } from "../../_components/user-avatar";
+import { UserAvatar } from "../../../../../components/dashboard/user-avatar";
 
 // Optionally, make a helper to render the related entity
 function RelatedTo({ related }: { related?: any }) {

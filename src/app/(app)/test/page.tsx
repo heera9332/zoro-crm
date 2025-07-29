@@ -1,4 +1,4 @@
-import Loader from "../dashboard/_components/loader";
+import Loader from "../../../components/dashboard/loader";
 
 export default function Page() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { Suspense, useEffect } from "react";
-import Loader from "../_components/loader";
+import Loader from "../../../../components/dashboard/loader";
 import { useSearchParams } from "next/navigation";
 import { useTodos } from "@/hooks/use-todos"
 import {

@@ -1,32 +1,36 @@
 "use client";
 // hooks/use-notification-socket.ts
 import { useEffect } from "react";
-import socket from "@/lib/socket"; // your socket.io-client instance
 import { useNotifications } from "@/hooks/use-notifications";
 import { toast } from "sonner";
+import { getSocket } from "@/lib/socket";
 
 export function useNotificationSocket(currentUserId?: string) {
-  const { addNotification } = useNotifications();
+  const { addNotification, loadNotifications } = useNotifications();
+  const socket = getSocket();
 
   useEffect(() => {
-    if (!socket) return;
 
-    // Optionally, join your user room
+    if (!currentUserId || !socket) return;
+
+    if (!socket) {
+      console.warn("Socket not available yet");
+      return;
+    }
+
+    console.log("🔗 Setting up notification listeners for user:", currentUserId);
+
     if (currentUserId) {
       socket.emit("join", currentUserId);
     }
 
     const handleNewNotification = (notification: any) => {
-      console.log(notification)
-      addNotification(notification);
+      console.log("🔔 New Notification Received:", notification);
       toast(notification.title);
+      loadNotifications()
     };
 
     socket.on("notification:new", handleNewNotification);
-
-    socket.on("test", (data) => {
-      console.log(data);
-    })
 
     return () => {
       socket.off("notification:new", handleNewNotification);
@@ -35,4 +39,5 @@ export function useNotificationSocket(currentUserId?: string) {
       }
     };
   }, [addNotification, currentUserId]);
+
 }

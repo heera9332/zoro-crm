@@ -2,7 +2,7 @@
 import React, { Suspense, useEffect } from "react";
 import { useUsers } from "@/hooks/use-users";
 import { useSearchParams } from "next/navigation";
-import Loader from "../_components/loader";
+import Loader from "../../../../components/dashboard/loader";
 import Link from "next/link";
 import Image from "next/image";
 import { User } from "@/payload-types";

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { Suspense, useEffect } from "react";
-import Loader from "../_components/loader";
+import Loader from "../../../../components/dashboard/loader";
 import { useSearchParams } from "next/navigation";
 import { useNotes } from "@/hooks/use-notes";
 import {

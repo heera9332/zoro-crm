@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { axios } from "@/lib/axios";
-import Content from "../../_components/contents";
-import Loader from "../../_components/loader";
+import Content from "../../../../../components/dashboard/contents";
+import Loader from "../../../../../components/dashboard/loader";
 import { Note } from "@/payload-types";
 
 export default function Page({ params }: { params: { id: string } }) {

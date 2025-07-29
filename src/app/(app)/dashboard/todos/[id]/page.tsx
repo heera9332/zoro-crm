@@ -2,10 +2,10 @@
 import { useParams } from "next/navigation";
 import { useTodos } from "@/hooks/use-todos";
 import { useEffect } from "react";
-import Content from "../../_components/contents";
-import Loader from "../../_components/loader";
+import Content from "../../../../../components/dashboard/contents";
+import Loader from "../../../../../components/dashboard/loader";
 import Link from "next/link";
-import { UserAvatar } from "../../_components/user-avatar";
+import { UserAvatar } from "../../../../../components/dashboard/user-avatar";
 
 export default function TodoDetailPage() {
   // Get id from URL

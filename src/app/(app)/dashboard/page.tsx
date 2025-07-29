@@ -8,8 +8,8 @@ import {
   User2,
   Bell,
 } from "lucide-react";
-import Spacer from "./_components/spacer";
-import { DashboardAnalytics } from "./_components/dashbaord-analytics";
+import Spacer from "../../../components/dashboard/spacer";
+import { DashboardAnalytics } from "../../../components/dashboard/dashbaord-analytics";
 
 const actions = [
   {

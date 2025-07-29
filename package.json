@@ -1,7 +1,6 @@
 {
   "name": "zoro-crm",
   "version": "0.0.1",
-  "type": "module",
   "author": {
     "name": "Heera Singh",
     "url": "https://www.github.com/heera9331",
@@ -10,11 +9,11 @@
   "scripts": {
     "build": "next build && tsc --project tsconfig.server.json",
     "build-start": "next build && tsc --project tsconfig.server.json && bun run start",
-    "dev": "next dev",
+    "dev": "bun server.ts",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "next start",
+    "start": "cross-env NODE_ENV=production node dist/server.js",
     "clean": "rm node_modules -rf && rm .next -rf && rm dist/ -rf"
   },
   "dependencies": {
@@ -40,6 +39,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
+    "dotenv": "^17.2.1",
     "esbuild": "^0.25.6",
     "express": "^4.21.1",
     "graphql": "^16.8.1",
