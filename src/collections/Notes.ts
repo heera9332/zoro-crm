@@ -2,6 +2,7 @@ import { isAdmin, isAuthor } from "@/utils/access";
 import type { CollectionConfig } from "payload";
 export const Notes: CollectionConfig = {
   slug: "notes",
+  folders: true,
   admin: {
     useAsTitle: "title",
   },
@@ -16,6 +17,7 @@ export const Notes: CollectionConfig = {
     update: ({ req }) => true,
     delete: ({ req, data }) => isAdmin({ req }) || isAuthor({ req, data }),
   },
+  
   fields: [
     {
       name: "title",
@@ -141,4 +143,9 @@ export const Notes: CollectionConfig = {
     ],
   },
   timestamps: true,
+  versions: {
+    maxPerDoc: 50,
+    drafts: true,
+  },
+  
 };

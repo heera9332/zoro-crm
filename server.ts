@@ -5,7 +5,7 @@ dotenv.config();
 import { createServer } from "http";
 import { Server as SocketIOServer } from "socket.io";
 import { parse } from "url";
-import { createClient } from "redis";
+// import { createClient } from "redis";
 import * as Next from "next";
 
 // Setup
@@ -49,15 +49,14 @@ nextApp.prepare().then(async () => {
   });
 
   // 🔁 Redis Subscriber
-  const redisSubscriber = createClient({ url: process.env.REDIS_URL });
-  await redisSubscriber.connect();
-
-  await redisSubscriber.subscribe("notifications", (msg) => {
-    console.log("notifications > ", msg)
-    const { userId, notification } = JSON.parse(msg);
-    console.log(`📨 Notification for ${userId}`, notification);
-    io?.to(userId).emit("notification:new", notification);
-  });
+  // const redisSubscriber = createClient({ url: process.env.REDIS_URL });
+  
+  // await redisSubscriber.subscribe("notifications", (msg) => {
+  //   console.log("notifications > ", msg)
+  //   const { userId, notification } = JSON.parse(msg);
+  //   console.log(`📨 Notification for ${userId}`, notification);
+  //   io?.to(userId).emit("notification:new", notification);
+  // });
 
   // Optional test event
   let count = 1;

@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 
 export const Todos: CollectionConfig = {
   slug: "todos",
+  folders: true,
   labels: {
     singular: "Todo",
     plural: "Todos",
