@@ -15,6 +15,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Project } from "@/payload-types";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 function Page() {
   const { projects, loadProjects, loadingProjects, projectsPagination } =
@@ -76,29 +77,36 @@ function Page() {
                 ? project.featuredImage.alt
                 : "project";
             return (
-              <Link
-                href={`/dashboard/projects/${project.id}`}
-                key={project.id}
-                className="bg-white rounded-md shadow-sm border border-gray-100 p-4 lg:p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:translate-y-[-4px]"
-              >
-                <div className="bg-orange-50 flex items-center justify-center mb-4 overflow-hidden">
-                  <Image
-                    src={imgUrl}
-                    width={500}
-                    height={500}
-                    alt={imgAlt}
-                    className="object-cover aspect-4/3"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2" title={project.title}>
-                  {project.title.length > 10 ? project.title.slice(0, 18) + "..." : project.title}
-                </h3>
-                <div className="project-meta">
-                  <p>
-                    <strong>Statue: </strong>
-                    {project?.status}
-                  </p>
-                </div>
+              <Link href={`/dashboard/projects/${project.id}`} key={project.id}>
+                <Card className="">
+                  <CardHeader>
+                    <Image
+                      src={imgUrl}
+                      width={500}
+                      height={500}
+                      alt={imgAlt}
+                      className="object-cover aspect-4/3"
+                    />
+                  </CardHeader>
+                  <CardContent>
+                    <h3
+                    className="text-xl font-semibold text-gray-900"
+                    title={project.title}
+                  >
+                    {project.title.length > 20
+                      ? project.title.slice(0, 17) + "..."
+                      : project.title}
+                  </h3>
+                  </CardContent>
+                  <CardFooter>
+                    <div className="project-meta">
+                      <p>
+                        <strong>Statue: </strong>
+                        {project?.status}
+                      </p>
+                    </div>
+                  </CardFooter>
+                </Card>
               </Link>
             );
           })}

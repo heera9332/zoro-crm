@@ -9,7 +9,7 @@ import { parse } from "url";
 import * as Next from "next";
 
 // Setup
-const PORT = parseInt(process.env.PORT || "3000", 10);
+const PORT = parseInt(process.env.PORT || "4001", 10);
 const dev = process.env.NODE_ENV !== "production";
 const nextApp = Next.default({ dev });
 const handle = nextApp.getRequestHandler();

@@ -37,7 +37,7 @@ export default function Page({ children }) {
                 orientation="vertical"
                 className="mr-2 data-[orientation=vertical]:h-4"
               />
-              <div className="flex justify-between w-full">
+              <div className="flex justify-between w-full items-center">
                 <DashboardBreadcrumb />
                 <div className="flex justify-end gap-2">
                   <NotificationsTray />
