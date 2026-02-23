@@ -9,7 +9,7 @@
   "scripts": {
     "build": "next build && tsc --project tsconfig.server.json",
     "build-start": "next build && tsc --project tsconfig.server.json && bun run start",
-    "dev": "bun server.ts",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
@@ -17,12 +17,12 @@
     "clean": "rm node_modules -rf && rm .next -rf && rm dist/ -rf"
   },
   "dependencies": {
-    "@payloadcms/db-mongodb": "latest",
+    "@payloadcms/db-postgres": "^3.77.0",
     "@payloadcms/email-nodemailer": "^3.77.0",
-    "@payloadcms/next": "latest",
-    "@payloadcms/payload-cloud": "latest",
-    "@payloadcms/plugin-form-builder": "^3.35.1",
-    "@payloadcms/richtext-lexical": "latest",
+    "@payloadcms/next": "3.77.0",
+    "@payloadcms/payload-cloud": "3.77.0",
+    "@payloadcms/plugin-form-builder": "3.77.0",
+    "@payloadcms/richtext-lexical": "3.77.0",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-collapsible": "^1.1.8",
     "@radix-ui/react-dialog": "^1.1.11",

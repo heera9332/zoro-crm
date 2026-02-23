@@ -1,10 +1,10 @@
 import path from "path";
-import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
-import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
-import { mongooseAdapter } from "@payloadcms/db-mongodb";
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
+import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
+import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
+import { postgresAdapter } from '@payloadcms/db-postgres';
+import { lexicalEditor } from "@payloadcms/richtext-lexical";
 
 import { Workspaces } from "@/collections/Workspaces";
 import { Users } from "@/collections/Users";
@@ -22,6 +22,7 @@ import { Messages } from "@/collections/Messages";
 import { Events } from "@/collections/Events";
 import { Todos } from "@/collections/Todos";
 import { Notification } from "@/collections/notifications/Notifications";
+
 import EmailTemplates from "@/global/templates/email";
 
 const filename = fileURLToPath(import.meta.url);
@@ -75,8 +76,10 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI || "",
+  db: postgresAdapter({ 
+    pool: {
+      connectionString: process.env.DATABASE_URL!,
+    },
   }),
 
   plugins: [
