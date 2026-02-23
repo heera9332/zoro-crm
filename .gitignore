@@ -47,3 +47,4 @@ build
 *.sh
 dump
 *.lock
+.secrets
