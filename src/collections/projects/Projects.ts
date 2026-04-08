@@ -237,15 +237,6 @@ export const Projects: CollectionConfig = {
         position: "sidebar",
         description: "Completion percentage",
       },
-    },
-    {
-      name: "author",
-      type: "relationship",
-      relationTo: "users",
-      admin: {
-        position: "sidebar",
-        readOnly: true,
-      },
     }
   ],
 

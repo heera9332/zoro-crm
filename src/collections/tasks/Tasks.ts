@@ -9,6 +9,7 @@ export const Tasks: CollectionConfig = {
   },
   admin: {
     useAsTitle: "title",
+    defaultColumns: ["title", "author", "status", "type"]
   },
   fields: [
     {
@@ -42,7 +43,7 @@ export const Tasks: CollectionConfig = {
       type: "select",
       label: "Task Status",
       options: [
-        { label: "To Do", value: "todo" },
+        { label: "To Do", value: "to-do" },
         { label: "In Progress", value: "in-progress" },
         { label: "In Review", value: "in-review" },
         { label: "Blocked", value: "blocked" },
@@ -63,18 +64,13 @@ export const Tasks: CollectionConfig = {
       ],
     },
     {
-      name: "tags",
-      type: "array",
-      label: "Tags",
+      name: "Tag",
+      type: "relationship",
+      relationTo: "tags",
+      label: "Tag",
       admin: {
-        description: "Add labels like bug, frontend, urgent",
+        position: "sidebar",
       },
-      fields: [
-        {
-          name: "tag",
-          type: "text",
-        },
-      ],
     },
     {
       name: "assignedTo",
