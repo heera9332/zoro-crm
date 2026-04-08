@@ -6,7 +6,7 @@ const PUBLIC_PATHS = ["/", "/auth", "/api/public"];
 // Your JWT secret. In prod, use process.env.JWT_SECRET
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
 
   // Allow public routes and static files

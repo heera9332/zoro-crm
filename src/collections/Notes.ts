@@ -1,5 +1,6 @@
-import { isAdmin, isAuthor } from "@/utils/access";
+import { isAdmin, isAuthor } from "@/access/access";
 import type { CollectionConfig } from "payload";
+
 export const Notes: CollectionConfig = {
   slug: "notes",
   folders: true,

@@ -1,4 +1,4 @@
-import { isAdmin } from "@/utils/access";
+import { isAdmin } from "@/access/access";
 import type { CollectionConfig } from "payload";
 import { createClient } from "redis";
 

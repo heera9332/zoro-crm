@@ -27,12 +27,6 @@ export const Tasks: CollectionConfig = {
       name: "content",
       type: "richText",
       label: "Task Description",
-    }
-    ,{
-      name: "comments",
-      type: "relationship",
-      relationTo: "comments",
-      label: "Comments",
     },
     {
       name: "author",
@@ -100,7 +94,7 @@ export const Tasks: CollectionConfig = {
         description: "Enter the total time taken (in hours).",
         position: "sidebar",
       },
-    },{
+    }, {
       name: "estimatedTime",
       label: "Estimated time (in hours)",
       type: "number",
@@ -127,11 +121,13 @@ export const Tasks: CollectionConfig = {
       relationTo: "media",
       label: "Attachments",
       hasMany: true,
-      admin: {
-        description: "Upload files related to the task.",
-        position: "sidebar",
-      },
     },
+    {
+      name: "comments",
+      type: "relationship",
+      relationTo: "comments",
+      label: "Comments",
+    }
   ],
   timestamps: true,
 };
