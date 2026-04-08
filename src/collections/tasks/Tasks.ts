@@ -121,6 +121,17 @@ export const Tasks: CollectionConfig = {
         },
       },
     },
+    {
+      name: "attachments",
+      type: "upload",
+      relationTo: "media",
+      label: "Attachments",
+      hasMany: true,
+      admin: {
+        description: "Upload files related to the task.",
+        position: "sidebar",
+      },
+    },
   ],
   timestamps: true,
 };

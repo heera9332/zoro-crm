@@ -78,6 +78,17 @@ export const Notes: CollectionConfig = {
       },
     },
     {
+      name: "attachments",
+      type: "upload",
+      relationTo: "media",
+      label: "Attachments",
+      hasMany: true,
+      admin: {
+        description: "Upload files related to the note.",
+        position: "sidebar",
+      },
+    },
+    {
       name: "collaborators",
       type: "relationship",
       relationTo: "users",
