@@ -41,10 +41,28 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
+      name: "tags",
+      type: "array",
+      label: "Tags",
+      fields: [
+        {
+          name: "tag",
+          type: "text",
+        },
+      ],
+      admin: {
+        description: "e.g. internal, client, urgent, SaaS",
+        position: "sidebar",
+      },
+    },
+    {
       name: "author",
       type: "relationship",
       label: "Author",
       relationTo: "users",
+      admin: {
+        position: "sidebar"
+      }
     },
     {
       name: "description",
@@ -171,7 +189,7 @@ export const Projects: CollectionConfig = {
     },
     {
       label: "Eastimated Time (in hours)",
-      name: "eastimatedTime",
+      name: "estimatedTime",
       type: "number",
       admin: {
         position: "sidebar",
@@ -189,6 +207,46 @@ export const Projects: CollectionConfig = {
         readOnly: true,
       },
     },
+    {
+      name: "type",
+      type: "select",
+      options: [
+        { label: "Internal", value: "internal" },
+        { label: "Client", value: "client" },
+        { label: "Research", value: "research" },
+      ],
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
+      name: "completedAt",
+      type: "date",
+      label: "Completed At",
+      admin: {
+        position: "sidebar",
+        readOnly: true,
+      },
+    },
+    {
+      name: "progress",
+      type: "number",
+      min: 0,
+      max: 100,
+      admin: {
+        position: "sidebar",
+        description: "Completion percentage",
+      },
+    },
+    {
+      name: "author",
+      type: "relationship",
+      relationTo: "users",
+      admin: {
+        position: "sidebar",
+        readOnly: true,
+      },
+    }
   ],
 
   hooks: {

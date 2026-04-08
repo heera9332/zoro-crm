@@ -42,14 +42,39 @@ export const Tasks: CollectionConfig = {
       type: "select",
       label: "Task Status",
       options: [
-        { label: "To Do", value: "to-do" },
+        { label: "To Do", value: "todo" },
         { label: "In Progress", value: "in-progress" },
-        { label: "Completed", value: "completed" },
+        { label: "In Review", value: "in-review" },
+        { label: "Blocked", value: "blocked" },
+        { label: "Completed", value: "done" },
       ],
       defaultValue: "to-do",
       admin: {
         position: "sidebar",
       },
+    },
+    {
+      name: "type",
+      type: "select",
+      options: [
+        { label: "Bug", value: "bug" },
+        { label: "Feature", value: "feature" },
+        { label: "Improvement", value: "improvement" },
+      ],
+    },
+    {
+      name: "tags",
+      type: "array",
+      label: "Tags",
+      admin: {
+        description: "Add labels like bug, frontend, urgent",
+      },
+      fields: [
+        {
+          name: "tag",
+          type: "text",
+        },
+      ],
     },
     {
       name: "assignedTo",
@@ -105,6 +130,14 @@ export const Tasks: CollectionConfig = {
       },
     },
     {
+      name: "startDate",
+      type: "date",
+      label: "Start Date",
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
       name: "dueDate",
       type: "date",
       label: "Due Date",
@@ -113,6 +146,15 @@ export const Tasks: CollectionConfig = {
         date: {
           pickerAppearance: "dayAndTime",
         },
+      },
+    },
+    {
+      name: "completedAt",
+      type: "date",
+      label: "Completed At",
+      admin: {
+        position: "sidebar",
+        readOnly: true,
       },
     },
     {
