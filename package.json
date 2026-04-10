@@ -9,7 +9,7 @@
   "scripts": {
     "build": "next build && tsc --project tsconfig.server.json",
     "build-start": "next build && tsc --project tsconfig.server.json && bun run start",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 4000 --no-server-fast-refresh",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 4001 --no-server-fast-refresh",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",

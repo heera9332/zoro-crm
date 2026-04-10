@@ -42,16 +42,10 @@ export const Projects: CollectionConfig = {
     },
     {
       name: "tags",
-      type: "array",
+      type: "relationship",
+      relationTo: "tags",
       label: "Tags",
-      fields: [
-        {
-          name: "tag",
-          type: "text",
-        },
-      ],
       admin: {
-        description: "e.g. internal, client, urgent, SaaS",
         position: "sidebar",
       },
     },
@@ -109,10 +103,10 @@ export const Projects: CollectionConfig = {
       },
     },
     {
-      name: "assignedTo",
+      name: "members",
       type: "relationship",
       relationTo: "users",
-      label: "Assigned To",
+      label: "Members",
       hasMany: true,
       admin: {
         allowCreate: false,
@@ -173,7 +167,6 @@ export const Projects: CollectionConfig = {
       hasMany: true,
       admin: {
         description: "Upload files related to the project.",
-        position: "sidebar",
       },
     },
     {
@@ -237,6 +230,12 @@ export const Projects: CollectionConfig = {
         position: "sidebar",
         description: "Completion percentage",
       },
+    },
+    {
+      name: "comments",
+      type: "relationship",
+      relationTo: "comments",
+      hasMany: true
     }
   ],
 
