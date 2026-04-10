@@ -30,69 +30,16 @@ import {
   Send,
 } from "lucide-react";
 import Link from "next/link";
-
-// Testimonials data
-const testimonials = [
-  {
-    name: "Sarah Johnson",
-    role: "Sales Director",
-    company: "TechGrowth Inc.",
-    image:
-      "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=800",
-    quote:
-      "Zoro CRM has transformed our sales process. Our team is more organized, and we've seen a 40% increase in closed deals since implementation.",
-    stars: 5,
-  },
-  {
-    name: "Michael Chen",
-    role: "Customer Success Manager",
-    company: "InnovateX",
-    image:
-      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=800",
-    quote:
-      "The customer management features are intuitive and powerful. We're able to provide better support and track customer satisfaction more effectively.",
-    stars: 5,
-  },
-  {
-    name: "Emma Rodriguez",
-    role: "Marketing Director",
-    company: "GrowthMasters",
-    image:
-      "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=800",
-    quote:
-      "Zoro CRM's integration capabilities have allowed us to create seamless marketing campaigns that directly connect to our sales pipeline.",
-    stars: 4,
-  },
-];
-
-const prices = {
-  starter: { annual: 12, monthly: 15 },
-  professional: { annual: 39, monthly: 49 },
-  enterprise: { annual: 79, monthly: 99 },
-};
-
-const faqs = [
-  {
-    question: "How easy is it to get started with Zoro CRM?",
-    answer:
-      "Getting started with Zoro CRM is incredibly simple. Sign up for an account, and our onboarding process will guide you through setting up your workspace. You can import your existing contacts, customize your pipeline, and be up and running in just a few minutes.",
-  },
-  {
-    question: "Can I import my existing customer data?",
-    answer:
-      "Yes, Zoro CRM makes it easy to import your existing customer data from CSV files, Excel spreadsheets, or directly from other popular CRM platforms. Our import wizard will guide you through mapping your fields and ensuring a smooth transition.",
-  },
-  {
-    question: "How secure is my data with Zoro CRM?",
-    answer:
-      "Security is our top priority. We use enterprise-grade encryption for all data, both in transit and at rest. We're compliant with major security standards, implement strict access controls, and regularly perform security audits to ensure your data remains protected.",
-  },
-  {
-    question: "What kind of support does Zoro CRM offer?",
-    answer:
-      "We offer multiple support channels including email, live chat, and phone support depending on your plan. Our knowledge base contains detailed guides and tutorials, and our customer success team is always ready to help you get the most out of Zoro CRM.",
-  },
-];
+import {
+  hero,
+  featuresList,
+  testimonials,
+  prices,
+  pricingFeatures,
+  faqs,
+  contactInfo,
+  footer,
+} from "../../data/home";
 
 export default function HomePage() {
   // State
@@ -278,57 +225,38 @@ export default function HomePage() {
             <div className="flex flex-col lg:flex-row items-center">
               <div className="lg:w-1/2 lg:pr-12">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                  Streamline Your{" "}
-                  <span className="text-orange-500">
-                    Customer Relationships
-                  </span>
+                  {hero.title.before}{" "}
+                  <span className="text-orange-500">{hero.title.highlight}</span>
                 </h1>
                 <p className="mt-6 text-lg md:text-xl text-gray-600 max-w-2xl">
-                  Zoro CRM helps businesses build stronger customer
-                  relationships, increase sales, and improve customer
-                  satisfaction with our intuitive and powerful platform.
+                  {hero.subtitle}
                 </p>
                 <div className="mt-8 flex flex-col sm:flex-row gap-4">
                   <button className="btn btn-primary btn-lg flex items-center">
-                    Get Started Free
+                    {hero.ctas.primary}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </button>
-                  <button className="btn btn-secondary btn-lg">
-                    Schedule Demo
-                  </button>
+                  <button className="btn btn-secondary btn-lg">{hero.ctas.secondary}</button>
                 </div>
                 <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 bg-orange-100 rounded-full p-3">
-                      <Users className="h-6 w-6 text-orange-500" />
+                  {hero.stats.map((s, i) => (
+                    <div key={i} className="flex items-center">
+                      <div className="flex-shrink-0 bg-orange-100 rounded-full p-3">
+                        {/* icon rendered from data file as JSX */}
+                        {s.icon === "Users" ? (
+                          <Users className="h-6 w-6 text-orange-500" />
+                        ) : s.icon === "BarChart2" ? (
+                          <BarChart2 className="h-6 w-6 text-orange-500" />
+                        ) : (
+                          <Clock className="h-6 w-6 text-orange-500" />
+                        )}
+                      </div>
+                      <div className="ml-3">
+                        <p className="text-sm font-medium text-gray-900">{s.value}</p>
+                        <p className="text-sm text-gray-500">{s.label}</p>
+                      </div>
                     </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">
-                        10,000+
-                      </p>
-                      <p className="text-sm text-gray-500">Active Users</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 bg-orange-100 rounded-full p-3">
-                      <BarChart2 className="h-6 w-6 text-orange-500" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">35%</p>
-                      <p className="text-sm text-gray-500">Sales Increase</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 bg-orange-100 rounded-full p-3">
-                      <Clock className="h-6 w-6 text-orange-500" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">
-                        5 minutes
-                      </p>
-                      <p className="text-sm text-gray-500">Setup Time</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
               <div className="lg:w-1/2 mt-12 lg:mt-0">
@@ -363,49 +291,7 @@ export default function HomePage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {/* 8 Features */}
-              {[
-                {
-                  icon: <Users />,
-                  title: "Contact Management",
-                  desc: "Easily organize and manage your contacts with comprehensive profiles and interaction history.",
-                },
-                {
-                  icon: <BarChart2 />,
-                  title: "Sales Pipeline",
-                  desc: "Track deals through your sales process with customizable pipelines and stages.",
-                },
-                {
-                  icon: <Clock />,
-                  title: "Task Management",
-                  desc: "Never miss a follow-up with automated reminders and task assignments.",
-                },
-                {
-                  icon: <MessageSquare />,
-                  title: "Communication Tools",
-                  desc: "Engage with customers through integrated email, chat, and call tracking.",
-                },
-                {
-                  icon: <Layers />,
-                  title: "Custom Workflows",
-                  desc: "Automate repetitive tasks with customizable workflows and triggers.",
-                },
-                {
-                  icon: <Shield />,
-                  title: "Data Security",
-                  desc: "Keep your customer data secure with enterprise-grade security measures.",
-                },
-                {
-                  icon: <Zap />,
-                  title: "Integration Ecosystem",
-                  desc: "Connect with your favorite tools and apps for a seamless workflow.",
-                },
-                {
-                  icon: <Database />,
-                  title: "Advanced Analytics",
-                  desc: "Gain insights into customer behavior and sales performance with detailed reports.",
-                },
-              ].map((f, i) => (
+              {featuresList.map((f, i) => (
                 <div
                   key={i}
                   className="bg-white rounded-md shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-orange-200 hover:-translate-y-1"
@@ -415,9 +301,7 @@ export default function HomePage() {
                       className: "h-6 w-6 text-orange-500",
                     })}
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    {f.title}
-                  </h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{f.title}</h3>
                   <p className="text-gray-600">{f.desc}</p>
                 </div>
               ))}
@@ -563,14 +447,7 @@ export default function HomePage() {
                     Perfect for small businesses and startups
                   </p>
                   <ul className="mt-8 space-y-4">
-                    {[
-                      "Up to 1,000 contacts",
-                      "Basic contact management",
-                      "Email integration",
-                      "Task management",
-                      "5 user seats",
-                      "Standard support",
-                    ].map((item) => (
+                    {pricingFeatures.starter.map((item) => (
                       <li key={item} className="flex items-start">
                         <Check className="h-5 w-5 text-green-500" />
                         <p className="ml-3 text-gray-700">{item}</p>
@@ -605,16 +482,7 @@ export default function HomePage() {
                     Ideal for growing businesses
                   </p>
                   <ul className="mt-8 space-y-4">
-                    {[
-                      "Up to 25,000 contacts",
-                      "Advanced contact management",
-                      "Email and SMS integration",
-                      "Sales pipelines",
-                      "Custom dashboards",
-                      "15 user seats",
-                      "Priority support",
-                      "API access",
-                    ].map((item) => (
+                    {pricingFeatures.professional.map((item) => (
                       <li key={item} className="flex items-start">
                         <Check className="h-5 w-5 text-green-500" />
                         <p className="ml-3 text-gray-700">{item}</p>
@@ -646,16 +514,7 @@ export default function HomePage() {
                     For large organizations with complex needs
                   </p>
                   <ul className="mt-8 space-y-4">
-                    {[
-                      "Unlimited contacts",
-                      "Advanced analytics",
-                      "Dedicated account manager",
-                      "Custom integrations",
-                      "Unlimited user seats",
-                      "SLA guarantees",
-                      "Advanced security features",
-                      "AI-powered insights",
-                    ].map((item) => (
+                    {pricingFeatures.enterprise.map((item) => (
                       <li key={item} className="flex items-start">
                         <Check className="h-5 w-5 text-green-500" />
                         <p className="ml-3 text-gray-700">{item}</p>
@@ -742,10 +601,8 @@ export default function HomePage() {
                         <Mail className="h-6 w-6 text-orange-500" />
                       </div>
                       <div className="ml-4">
-                        <h4 className="text-lg font-medium text-gray-900">
-                          Email Us
-                        </h4>
-                        <p className="mt-1 text-gray-600">info@zoro-crm.com</p>
+                        <h4 className="text-lg font-medium text-gray-900">Email Us</h4>
+                        <p className="mt-1 text-gray-600">{contactInfo.email}</p>
                       </div>
                     </div>
                     <div className="flex items-start">
@@ -753,10 +610,8 @@ export default function HomePage() {
                         <Phone className="h-6 w-6 text-orange-500" />
                       </div>
                       <div className="ml-4">
-                        <h4 className="text-lg font-medium text-gray-900">
-                          Call Us
-                        </h4>
-                        <p className="mt-1 text-gray-600">+1 (888) 123-4567</p>
+                        <h4 className="text-lg font-medium text-gray-900">Call Us</h4>
+                        <p className="mt-1 text-gray-600">{contactInfo.phone}</p>
                       </div>
                     </div>
                     <div className="flex items-start">
@@ -764,13 +619,14 @@ export default function HomePage() {
                         <MapPin className="h-6 w-6 text-orange-500" />
                       </div>
                       <div className="ml-4">
-                        <h4 className="text-lg font-medium text-gray-900">
-                          Visit Us
-                        </h4>
+                        <h4 className="text-lg font-medium text-gray-900">Visit Us</h4>
                         <p className="mt-1 text-gray-600">
-                          123 Business Ave, Suite 500
-                          <br />
-                          San Francisco, CA 94107
+                          {contactInfo.address.map((line, idx) => (
+                            <React.Fragment key={idx}>
+                              {line}
+                              {idx < contactInfo.address.length - 1 && <br />}
+                            </React.Fragment>
+                          ))}
                         </p>
                       </div>
                     </div>
@@ -793,15 +649,9 @@ export default function HomePage() {
             <div className="lg:col-span-2">
               <div className="flex items-center">
                 <Zap className="h-8 w-8 text-orange-500" />
-                <span className="ml-2 text-xl font-bold text-white">
-                  Zoro CRM
-                </span>
+                <span className="ml-2 text-xl font-bold text-white">Zoro CRM</span>
               </div>
-              <p className="mt-4 text-gray-400 max-w-md">
-                Zoro CRM helps businesses build stronger customer relationships,
-                increase sales, and improve customer satisfaction with our
-                intuitive and powerful platform.
-              </p>
+              <p className="mt-4 text-gray-400 max-w-md">{footer.description}</p>
               <div className="mt-6 flex space-x-4">
                 <a
                   href="#"
